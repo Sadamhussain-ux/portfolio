@@ -97,8 +97,8 @@ body.menu-open .menu li button { animation: rise .5s cubic-bezier(.2,.8,.2,1) fo
   padding: 76px 20px calc(var(--dock-h) + var(--safe-b)) 20px;
   overflow-y: auto; overscroll-behavior: contain;
 }
-.slide.active { display: flex; flex-direction: column; justify-content: center; }
-.slide-inner { width: 100%; max-width: 1080px; margin: 0 auto; }
+.slide.active { display: flex; flex-direction: column; }
+.slide-inner { width: 100%; max-width: 1080px; margin: auto; }   /* auto margins centre without cutting off tall pages */
 .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: .18em; color: var(--cyan); text-transform: uppercase; margin-bottom: 14px; display: flex; gap: 10px; align-items: center; }
 .kicker::before { content: ''; width: 22px; height: 1px; background: var(--cyan); }
 h1, h2 { font-weight: 700; letter-spacing: -.03em; line-height: 1; }
@@ -170,18 +170,29 @@ h2 em { font-style: normal; color: var(--lime); }
 .stage-card h3 { font-size: 18px; margin: 2px 0; }
 .stage-card p { color: var(--muted); font-size: 14px; line-height: 1.5; }
 
-/* ---- 4: FEATURED (OpenSkein) ---- */
-.tiers { display: grid; gap: 10px; margin: 6px 0 20px; }
-.tier { display: grid; grid-template-columns: 74px 1fr; gap: 12px; align-items: center; }
-.tier b { font-family: var(--mono); font-size: 11.5px; font-weight: 400; color: var(--muted); }
-.tier-row { display: flex; gap: 6px; flex-wrap: wrap; }
-.tok { height: 30px; min-width: 30px; border-radius: 8px; opacity: 0; transform: scale(.4); font-style: normal; }
-.slide.shown .tok { animation: pop .45s cubic-bezier(.3,1.6,.5,1) forwards; animation-delay: calc(var(--d) * 60ms + 200ms); }
+/* ---- 4: FEATURED (Open Weaver Studio) ---- */
+.roles { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; max-width: 520px; }
+.roles span { font-family: var(--mono); font-size: 11.5px; padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(212,245,91,.4); color: var(--lime); }
+.studio { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px 14px; margin-bottom: 12px; max-width: 520px; }
+.studio-bar { display: flex; align-items: center; gap: 5px; margin-bottom: 10px; }
+.studio-bar i { width: 8px; height: 8px; border-radius: 50%; background: #2a3a40; }
+.studio-bar span { margin-left: 8px; font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
+.field { margin-bottom: 8px; }
+.field label { display: block; font-family: var(--mono); font-size: 10px; color: var(--muted); margin-bottom: 3px; letter-spacing: .06em; text-transform: uppercase; }
+.input { height: 32px; border-radius: 8px; border: 1px solid var(--line); background: #0a1114; padding: 0 10px; font-size: 13px; line-height: 30px; white-space: nowrap; overflow: hidden; }
+.input.typing::after { content: ''; display: inline-block; width: 2px; height: 14px; background: var(--cyan); vertical-align: -2px; margin-left: 1px; animation: blink .7s steps(2) infinite; }
+.gen { display: flex; align-items: center; gap: 10px; margin: 10px 0; font-family: var(--mono); font-size: 11px; color: var(--cyan); opacity: 0; transition: opacity .3s; }
+.gen.on { opacity: 1; }
+.gen b { flex: none; width: 70px; height: 4px; border-radius: 4px; background: #1d2c31; position: relative; overflow: hidden; }
+.gen.on b::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--cyan), var(--lime)); transform-origin: left; animation: load 1.1s ease forwards; }
+@keyframes load { from { transform: scaleX(0); } }
+.sites { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.sites i { aspect-ratio: 4/3; border-radius: 8px; background: #0a1114; border: 1px solid var(--line); position: relative; overflow: hidden; opacity: 0; transform: scale(.5); }
+.sites.on i { animation: pop .45s cubic-bezier(.3,1.6,.5,1) forwards; animation-delay: calc(var(--d) * 110ms); }
+.sites i::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 38%; background: var(--c); opacity: .85; }
+.sites i::after { content: ''; position: absolute; left: 12%; right: 30%; top: 52%; height: 30%; background: repeating-linear-gradient(#3a4a50 0 3px, transparent 3px 8px); }
+.sites i:nth-child(1) { box-shadow: 0 0 0 2px var(--lime); }
 @keyframes pop { to { opacity: 1; transform: none; } }
-.t1 .tok { width: 30px; }
-.t2 .tok { padding: 0 10px; font-family: var(--mono); font-size: 11px; line-height: 30px; background: rgba(75,227,255,.12); border: 1px solid rgba(75,227,255,.4); }
-.t3 .tok { padding: 0 12px; line-height: 30px; font-size: 12.5px; font-weight: 600; border-radius: 999px; background: var(--lime); color: #111; }
-.t3 .tok.alt { background: transparent; border: 1px solid var(--lime); color: var(--lime); }
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 560px; }
 .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
 .stat b { display: block; font-size: clamp(26px, 5vw, 40px); color: var(--lime); line-height: 1; }
@@ -321,7 +332,10 @@ h2 em { font-style: normal; color: var(--lime); }
   h2 { font-size: 48px; }
 }
 @media (max-width: 480px) {
-  .progress { display: none; }       /* the menu button shows position on phones */
+  .progress { display: none; }
+  .roles { display: none; }            /* shown in the Work case card instead */
+  .sites i { aspect-ratio: 16/10; }
+  .studio .field { margin-bottom: 6px; }       /* the menu button shows position on phones */
 }
 @media (max-width: 380px) {
   .pair { grid-template-columns: 1fr 22px 1fr; }
@@ -403,7 +417,7 @@ h2 em { font-style: normal; color: var(--lime); }
         <div class="pair" style="--d:2"><span class="a">Design Tokens</span><i></i><span class="b">Components</span></div>
         <div class="pair" style="--d:3"><span class="a">Visual Design</span><i></i><span class="b">Prototyping</span></div>
         <div class="pair" style="--d:4"><span class="a">HTML5</span><i></i><span class="b">CSS3</span></div>
-        <div class="pair" style="--d:5"><span class="a">Figma AI</span><i></i><span class="b">Claude Code</span></div>
+        <div class="pair" style="--d:5"><span class="a">Figma Make</span><i></i><span class="b">Claude Code</span></div>
       </div>
     </div>
   </section>
@@ -421,35 +435,36 @@ h2 em { font-style: normal; color: var(--lime); }
         <div class="stage-row ix" style="--d:6"><div class="cell">03</div>
           <div class="stage-card"><div class="yr">2021 – 2023</div><h3>UI/UX Designer</h3><p>CEM Business Solutions. Web and mobile apps, landing pages, email.</p></div></div>
         <div class="stage-row now ix" style="--d:8"><div class="cell">04</div>
-          <div class="stage-card"><div class="yr">2023 – 2026</div><h3>Senior UX Specialist</h3><p>Open Weaver. Leading OpenSkein, an AI-native design system.</p></div></div>
+          <div class="stage-card"><div class="yr">2023 – 2026</div><h3>Senior UX Specialist</h3><p>Open Weaver. Designed Open Weaver Studio, an AI website builder used by 1000+ clients.</p></div></div>
       </div>
     </div>
   </section>
 
-  <!-- 04 FEATURED: OPENSKEIN -->
-  <section class="slide" data-name="OpenSkein">
+  <!-- 04 FEATURED: OPEN WEAVER STUDIO -->
+  <section class="slide" data-name="Studio">
     <div class="slide-inner split">
       <div>
-        <div class="kicker ix">04 · Featured project</div>
-        <h2 class="ix" style="--d:1">Open<em>Skein</em></h2>
-        <p class="lead ix" style="--d:2">An AI-native, multi-surface design system built from scratch. Hub-and-spoke architecture, a three-tier token system, and components generated with Figma AI and built into production UI with Claude Code.</p>
+        <div class="kicker ix">04 · Featured product</div>
+        <h2 class="ix" style="--d:1">Open Weaver <em>Studio</em></h2>
+        <p class="lead ix" style="--d:2">An AI website builder with a self-service flow. Enter a business name and a short description, and Studio shows six different single-page websites to choose from.</p>
+        <div class="roles ix" style="--d:3"><span>UX Research</span><span>Hi-fi Design</span><span>Design System</span><span>Components</span><span>HTML</span><span>Prototyping</span><span>Figma Make</span><span>Claude Code</span></div>
       </div>
       <div>
-        <div class="tiers">
-          <div class="tier t1"><b>TIER 1</b><div class="tier-row">
-            <i class="tok" style="--d:0;background:#4be3ff"></i><i class="tok" style="--d:1;background:#1e9fbf"></i><i class="tok" style="--d:2;background:#d4f55b"></i><i class="tok" style="--d:3;background:#8fb52a"></i><i class="tok" style="--d:4;background:#ff6b9a"></i><i class="tok" style="--d:5;background:#eaf6f8"></i><i class="tok" style="--d:6;background:#44565c"></i>
-          </div></div>
-          <div class="tier t2"><b>TIER 2</b><div class="tier-row">
-            <i class="tok" style="--d:6">surface</i><i class="tok" style="--d:7">action</i><i class="tok" style="--d:8">text</i><i class="tok" style="--d:9">danger</i>
-          </div></div>
-          <div class="tier t3"><b>TIER 3</b><div class="tier-row">
-            <i class="tok" style="--d:11">Button</i><i class="tok alt" style="--d:12">Tab</i><i class="tok" style="--d:13">Chip</i><i class="tok alt" style="--d:14">Input</i>
-          </div></div>
+        <!-- Animated demo of the Studio flow (illustrative) -->
+        <div class="studio ix" style="--d:3">
+          <div class="studio-bar"><i></i><i></i><i></i><span>studio · new website</span></div>
+          <div class="field"><label>Business name</label><div class="input" data-type="Chennai Bakes"></div></div>
+          <div class="field"><label>Description</label><div class="input" data-type="Home bakery with fresh cakes and cookies"></div></div>
+          <div class="gen"><b></b><span>Generating 6 websites…</span></div>
+          <div class="sites">
+            <i style="--d:0;--c:#4be3ff"></i><i style="--d:1;--c:#d4f55b"></i><i style="--d:2;--c:#ff6b9a"></i>
+            <i style="--d:3;--c:#f7c948"></i><i style="--d:4;--c:#a78bfa"></i><i style="--d:5;--c:#eaf6f8"></i>
+          </div>
         </div>
         <div class="stats">
-          <div class="stat ix" style="--d:10"><b>50+</b><span>components</span></div>
-          <div class="stat ix" style="--d:11"><b>3</b><span>token tiers</span></div>
-          <div class="stat ix" style="--d:12"><b>AI</b><span>native workflow</span></div>
+          <div class="stat ix" style="--d:8"><b>1000+</b><span>clients published</span></div>
+          <div class="stat ix" style="--d:9"><b>6</b><span>websites per brief</span></div>
+          <div class="stat ix" style="--d:10"><b>AI</b><span>self-service flow</span></div>
         </div>
       </div>
     </div>
@@ -473,7 +488,7 @@ h2 em { font-style: normal; color: var(--lime); }
           <span style="--a:300deg;--r:min(170px,41vw)"><b>Adobe XD</b></span>
         </div>
         <div class="ring r2">
-          <span style="--a:30deg;--r:min(112px,27vw)"><b>Figma AI</b></span>
+          <span style="--a:30deg;--r:min(112px,27vw)"><b>Figma Make</b></span>
           <span style="--a:150deg;--r:min(112px,27vw)"><b>Claude Code</b></span>
           <span style="--a:270deg;--r:min(112px,27vw)"><b>Figma MCP</b></span>
         </div>
@@ -489,10 +504,10 @@ h2 em { font-style: normal; color: var(--lime); }
       <h2 class="ix" style="--d:1">Selected <em>work</em>.</h2>
       <div class="cases">
         <article class="case ix" style="--d:2">
-          <div class="tagline">CASE 01 · DESIGN SYSTEM</div>
-          <h3>OpenSkein at Open Weaver</h3>
-          <p>Built from scratch: token architecture, 50+ Figma components, documentation, and an AI workflow from design tokens to production UI.</p>
-          <div class="chips"><span>Design Systems</span><span>Tokens</span><span>Figma AI</span><span>Claude Code</span></div>
+          <div class="tagline">CASE 01 · AI PRODUCT</div>
+          <h3>Open Weaver Studio</h3>
+          <p>A self-service AI website builder: a business name and description in, six single-page websites out. 1000+ clients have published their websites. I owned UX research, high-fidelity design, the design system, HTML conversion and prototyping.</p>
+          <div class="chips"><span>UX Research</span><span>Design System</span><span>HTML</span><span>Figma Make</span><span>Claude Code</span></div>
         </article>
         <!-- Replace these two with real case studies when ready -->
         <article class="case soon ix" style="--d:3">
@@ -596,11 +611,11 @@ const SCRIPT = [
   { fact: "DID YOU KNOW", say: ["Sadam began his career as a graphic designer.", "Then he learned to code, so he could build what he designed."],
     more: "He also has a Computer Science degree, so developers are his teammates, not strangers.", next: "Skills" },
   { fact: "INTERESTING", say: ["Sadam's skills come in pairs.", "He can design a screen and build it in HTML and CSS himself."],
-    more: "His newest pair is AI: Figma AI for components, Claude Code to turn designs into real UI.", next: "Journey" },
+    more: "His newest pair is AI: Figma Make for fast prototypes, Claude Code to turn designs into real UI.", next: "Journey" },
   { fact: "FUN FACT", say: ["At Xerago, Sadam led a UI team of 28 people.", "That's a whole classroom of designers and developers!"],
-    more: "Each role added something new: craft, code, leadership, then systems thinking.", next: "OpenSkein" },
-  { fact: "BIG ONE", say: ["Sadam built OpenSkein from scratch.", "It has more than 50 components, all powered by design tokens."],
-    more: "One core system serves several products, thanks to its hub-and-spoke setup.", next: "Toolkit" },
+    more: "Each role added something new: craft, code, leadership, then systems thinking.", next: "Studio" },
+  { fact: "BIG ONE", say: ["Over 1000 businesses have published their websites with Open Weaver Studio.", "Type a business name and a description, and you get six websites to pick from!"],
+    more: "Sadam shaped the whole journey: research, high-fidelity design, the design system, HTML and AI prototyping.", next: "Toolkit" },
   { fact: "DID YOU KNOW", say: ["Sadam speaks three languages: English, Tamil and Hindi.", "And a fourth one: prompts, for talking to AI."],
     more: "He uses role prompting, few-shot examples and chain-of-thought to keep AI output consistent.", next: "Work" },
   { fact: "SNEAK PEEK", say: ["Here's the work.", "More case studies are on the way, so check back soon!"],
@@ -732,6 +747,7 @@ function show(i) {
   nextLabel.textContent = SCRIPT[i].next;
   backBtn.disabled = i === 0;
   bgMood = i;
+  if (slides[i].querySelector('.studio')) playStudio(slides[i]);
   speak(i);
 }
 async function go(i) {
@@ -817,6 +833,26 @@ function drawBg() {
   if (!reduce) requestAnimationFrame(drawBg);
 }
 requestAnimationFrame(drawBg);
+
+/* ---------- Studio demo: type inputs, generate, show 6 sites ---------- */
+let studioRun = 0;
+async function playStudio(slide) {
+  const my = ++studioRun;
+  const inputs = [...slide.querySelectorAll('.input')], gen = slide.querySelector('.gen'), sites = slide.querySelector('.sites');
+  inputs.forEach(el => { el.textContent = ''; el.classList.remove('typing'); });
+  gen.classList.remove('on'); sites.classList.remove('on');
+  if (reduce) { inputs.forEach(el => el.textContent = el.dataset.type); gen.classList.add('on'); sites.classList.add('on'); return; }
+  await sleep(900);
+  for (const el of inputs) {
+    el.classList.add('typing');
+    for (const ch of el.dataset.type) { if (my !== studioRun) return; el.textContent += ch; await sleep(45); }
+    el.classList.remove('typing'); await sleep(250);
+  }
+  if (my !== studioRun) return;
+  gen.classList.add('on'); await sleep(1150);
+  if (my !== studioRun) return;
+  sites.classList.add('on');
+}
 
 /* start */
 show(0);
