@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#05080a">
+<title>Sadam Hussain · Senior UX Designer</title>
+<meta name="description" content="Sadam Hussain B, Senior UX Designer in Chennai. UX research, product design and AI-native design systems.">
+<meta property="og:title" content="Sadam Hussain · Senior UX Designer">
+<meta property="og:description" content="UX research, product design and AI-native design systems. 9+ years.">
+<meta property="og:image" content="assets/sadam.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ================= TOKENS ================= */
+:root {
+  --bg: #05080a;
+  --panel: rgba(12, 20, 24, .82);
+  --line: rgba(120, 220, 255, .16);
+  --text: #eaf6f8;
+  --muted: #8aa3aa;
+  --cyan: #4be3ff;
+  --lime: #d4f55b;
+  --pink: #ff6b9a;
+  --display: 'Space Grotesk', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --dock-h: 236px;               /* space kept free for the mascot + button on phones */
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  background: var(--bg); color: var(--text); font-family: var(--display);
+  overflow: hidden; -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+a { color: inherit; }
+
+/* ================= BACKGROUND ================= */
+#bg { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; opacity: .7; }
+.grid-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, #000 20%, transparent 75%);
+  opacity: .35;
+}
+
+/* ================= TOP BAR ================= */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: max(12px, env(safe-area-inset-top)) 14px 10px 18px;
+}
+.brand { font-weight: 700; font-size: 17px; letter-spacing: -.01em; }
+.brand b { color: var(--lime); }
+.progress { display: flex; align-items: center; }
+.progress button { width: 20px; height: 22px; display: grid; place-items: center; position: relative; }
+.progress button::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #25363c; transition: .3s; }
+.progress button.done::before { background: var(--cyan); }
+.progress button.on::before { width: 11px; height: 11px; background: var(--lime); box-shadow: 0 0 12px var(--lime); }
+.menu-btn { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(12,20,24,.7); font-family: var(--mono); font-size: 12px; }
+.menu-btn .count { color: var(--muted); }
+.burger { width: 16px; height: 10px; position: relative; }
+.burger::before, .burger::after { content: ''; position: absolute; left: 0; right: 0; height: 2px; background: var(--text); border-radius: 2px; transition: .3s; }
+.burger::before { top: 0; } .burger::after { bottom: 0; }
+body.menu-open .burger::before { top: 4px; transform: rotate(45deg); }
+body.menu-open .burger::after { bottom: 4px; transform: rotate(-45deg); }
+
+/* ================= MENU OVERLAY ================= */
+.menu {
+  position: fixed; inset: 0; z-index: 45; background: rgba(5,8,10,.96); backdrop-filter: blur(14px);
+  display: flex; flex-direction: column; justify-content: center; padding: 80px 24px 40px;
+  clip-path: circle(0 at calc(100% - 50px) 32px); transition: clip-path .6s cubic-bezier(.7,0,.2,1);
+}
+body.menu-open .menu { clip-path: circle(150% at calc(100% - 50px) 32px); }
+.menu ol { list-style: none; max-width: 720px; width: 100%; margin: 0 auto; }
+.menu li button {
+  width: 100%; display: flex; align-items: baseline; gap: 16px; text-align: left;
+  padding: 10px 0; border-bottom: 1px solid var(--line);
+  font-size: clamp(26px, 6vw, 46px); font-weight: 600; letter-spacing: -.02em;
+  opacity: 0; transform: translateY(20px); transition: color .2s, padding .3s;
+}
+body.menu-open .menu li button { animation: rise .5s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: calc(var(--d) * 50ms + 200ms); }
+.menu li button small { font-family: var(--mono); font-size: 12px; color: var(--cyan); font-weight: 400; min-width: 24px; }
+.menu li button:hover { color: var(--lime); padding-left: 10px; }
+.menu li button.on { color: var(--lime); }
+.menu li button.on::after { content: '← you are here'; font-family: var(--mono); font-size: 11px; color: var(--muted); font-weight: 400; margin-left: auto; }
+.menu .menu-foot { max-width: 720px; width: 100%; margin: 26px auto 0; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+/* ================= SLIDES ================= */
+.stage { position: fixed; inset: 0; z-index: 10; }
+.slide {
+  position: absolute; inset: 0; display: none;
+  padding: 76px 20px calc(var(--dock-h) + var(--safe-b)) 20px;
+  overflow-y: auto; overscroll-behavior: contain;
+}
+.slide.active { display: flex; flex-direction: column; justify-content: center; }
+.slide-inner { width: 100%; max-width: 1080px; margin: 0 auto; }
+.kicker { font-family: var(--mono); font-size: 12px; letter-spacing: .18em; color: var(--cyan); text-transform: uppercase; margin-bottom: 14px; display: flex; gap: 10px; align-items: center; }
+.kicker::before { content: ''; width: 22px; height: 1px; background: var(--cyan); }
+h1, h2 { font-weight: 700; letter-spacing: -.03em; line-height: 1; }
+h2 { font-size: clamp(34px, 7vw, 68px); margin-bottom: 22px; }
+h2 em { font-style: normal; color: var(--lime); }
+.lead { color: var(--muted); font-size: clamp(15px, 2vw, 18px); line-height: 1.6; max-width: 560px; }
+
+.slide .ix { opacity: 0; transform: translateY(18px); }
+.slide.shown .ix { animation: rise .7s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: calc(var(--d, 0) * 90ms + 150ms); }
+@keyframes rise { to { opacity: 1; transform: none; } }
+
+/* ---- 0: INTRO ---- */
+.intro { text-align: center; align-items: center; }
+.intro .hello { font-family: var(--mono); color: var(--cyan); font-size: 14px; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 14px; }
+.intro h1 { font-size: clamp(54px, 14vw, 140px); line-height: .9; }
+.intro h1 span { display: block; color: transparent; -webkit-text-stroke: 1.5px var(--cyan); }
+.intro .sub { color: var(--muted); font-size: clamp(15px, 2.4vw, 19px); margin-top: 18px; }
+.log { font-family: var(--mono); font-size: 12.5px; color: var(--muted); margin: 26px auto 0; text-align: left; max-width: 340px; line-height: 1.9; }
+.log .ok { color: var(--lime); }
+.hint { margin-top: 26px; font-family: var(--mono); font-size: 11.5px; color: var(--muted); display: inline-flex; flex-direction: column; align-items: center; gap: 8px; }
+.mouse { width: 20px; height: 32px; border: 1.5px solid var(--muted); border-radius: 12px; position: relative; }
+.mouse::after { content: ''; position: absolute; left: 50%; top: 6px; width: 3px; height: 6px; margin-left: -1.5px; border-radius: 2px; background: var(--lime); animation: wheel 1.6s infinite; }
+@keyframes wheel { 0% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(10px); } }
+
+/* ---- 1: ABOUT ---- */
+.identity { display: grid; grid-template-columns: 118px 1fr; gap: 14px 18px; align-items: center; }
+.identity .readout { grid-column: 1 / -1; }
+.identity h2 { font-size: clamp(30px, 8vw, 68px); margin-bottom: 0; }
+.photo { position: relative; width: 100%; aspect-ratio: 4/5; border-radius: 18px; overflow: hidden; border: 1px solid var(--line); }
+.photo img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) brightness(.7); transition: filter 1.2s ease .9s; }
+.slide.shown .photo img { filter: none; }
+.photo::after { content: ''; position: absolute; left: 0; right: 0; height: 30%; top: -30%; background: linear-gradient(transparent, rgba(75,227,255,.45), transparent); border-bottom: 2px solid var(--cyan); }
+.slide.shown .photo::after { animation: scan 1.8s ease-in-out .2s 1 forwards; }
+@keyframes scan { 0% { top: -30%; } 100% { top: 110%; } }
+.corner { position: absolute; width: 16px; height: 16px; border: 2px solid var(--lime); z-index: 2; }
+.c1 { top: 8px; left: 8px; border-right: 0; border-bottom: 0; } .c2 { top: 8px; right: 8px; border-left: 0; border-bottom: 0; }
+.c3 { bottom: 8px; left: 8px; border-right: 0; border-top: 0; } .c4 { bottom: 8px; right: 8px; border-left: 0; border-top: 0; }
+.readout { font-family: var(--mono); font-size: 13px; }
+.readout div { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 8px 0; border-bottom: 1px dashed var(--line); }
+.readout dt { color: var(--muted); }
+.readout .live { color: var(--lime); }
+.readout .live::before { content: '● '; animation: blink 1.2s steps(2) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ---- 2: SKILLS ---- */
+.pairs { display: flex; flex-direction: column; gap: 10px; max-width: 640px; margin-top: 8px; }
+.pair { display: grid; grid-template-columns: 1fr 44px 1fr; align-items: center; gap: 8px; }
+.pair span { padding: 10px 12px; border-radius: 10px; font-size: clamp(13px, 2.2vw, 15px); font-weight: 500; }
+.pair .a { background: rgba(75,227,255,.1); border: 1px solid rgba(75,227,255,.35); text-align: right; }
+.pair .b { background: rgba(212,245,91,.08); border: 1px solid rgba(212,245,91,.35); }
+.pair i { height: 2px; background: linear-gradient(90deg, var(--cyan), var(--lime)); transform: scaleX(0); }
+.slide.shown .pair i { animation: link .5s ease forwards; animation-delay: calc(var(--d) * 90ms + 500ms); }
+@keyframes link { to { transform: scaleX(1); } }
+.slide.shown .pair .a { animation: fromL .6s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--d) * 90ms + 150ms); }
+.slide.shown .pair .b { animation: fromR .6s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--d) * 90ms + 150ms); }
+@keyframes fromL { from { opacity: 0; transform: translateX(-40px); } }
+@keyframes fromR { from { opacity: 0; transform: translateX(40px); } }
+
+/* ---- 3: JOURNEY ---- */
+.evo { position: relative; display: grid; gap: 14px; margin-top: 8px; }
+.evo::before { content: ''; position: absolute; left: 21px; top: 10px; bottom: 10px; width: 2px; background: linear-gradient(var(--cyan), var(--lime)); transform-origin: top; transform: scaleY(0); }
+.slide.shown .evo::before { animation: grow 1.4s ease .2s forwards; }
+@keyframes grow { to { transform: scaleY(1); } }
+.stage-row { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start; }
+.cell { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--bg); border: 2px solid var(--cyan); position: relative; z-index: 1; font-family: var(--mono); font-size: 13px; color: var(--cyan); }
+.stage-row.now .cell { border-color: var(--lime); color: var(--lime); box-shadow: 0 0 22px rgba(212,245,91,.5); }
+.stage-card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 10px 14px; }
+.stage-card .yr { font-family: var(--mono); font-size: 11.5px; color: var(--cyan); }
+.stage-card h3 { font-size: 18px; margin: 2px 0; }
+.stage-card p { color: var(--muted); font-size: 14px; line-height: 1.5; }
+
+/* ---- 4: FEATURED (OpenSkein) ---- */
+.tiers { display: grid; gap: 10px; margin: 6px 0 20px; }
+.tier { display: grid; grid-template-columns: 74px 1fr; gap: 12px; align-items: center; }
+.tier b { font-family: var(--mono); font-size: 11.5px; font-weight: 400; color: var(--muted); }
+.tier-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.tok { height: 30px; min-width: 30px; border-radius: 8px; opacity: 0; transform: scale(.4); font-style: normal; }
+.slide.shown .tok { animation: pop .45s cubic-bezier(.3,1.6,.5,1) forwards; animation-delay: calc(var(--d) * 60ms + 200ms); }
+@keyframes pop { to { opacity: 1; transform: none; } }
+.t1 .tok { width: 30px; }
+.t2 .tok { padding: 0 10px; font-family: var(--mono); font-size: 11px; line-height: 30px; background: rgba(75,227,255,.12); border: 1px solid rgba(75,227,255,.4); }
+.t3 .tok { padding: 0 12px; line-height: 30px; font-size: 12.5px; font-weight: 600; border-radius: 999px; background: var(--lime); color: #111; }
+.t3 .tok.alt { background: transparent; border: 1px solid var(--lime); color: var(--lime); }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 560px; }
+.stat { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+.stat b { display: block; font-size: clamp(26px, 5vw, 40px); color: var(--lime); line-height: 1; }
+.stat span { font-size: 12.5px; color: var(--muted); }
+
+/* ---- 5: TOOLKIT (orbit) ---- */
+.orbit-wrap { position: relative; width: min(340px, 82vw); aspect-ratio: 1; margin: 10px auto 0; }
+.core { position: absolute; inset: 36%; border-radius: 50%; background: radial-gradient(circle at 35% 35%, var(--lime), #6b8a10 70%); box-shadow: 0 0 60px rgba(212,245,91,.35); display: grid; place-items: center; color: #111; font-weight: 700; font-size: 13px; text-align: center; line-height: 1.1; }
+.ring { position: absolute; inset: 0; border: 1px dashed var(--line); border-radius: 50%; animation: spin 40s linear infinite; }
+.ring.r2 { inset: 17%; animation-duration: 28s; animation-direction: reverse; }
+.ring span { position: absolute; left: 50%; top: 50%; font-size: 12px; font-family: var(--mono); white-space: nowrap; transform: rotate(var(--a)) translate(var(--r)) rotate(calc(-1 * var(--a))) translate(-50%, -50%); }
+.ring span b { display: inline-block; font-weight: 400; padding: 5px 9px; border-radius: 999px; background: #0c1418; border: 1px solid var(--line); animation: spin 40s linear infinite reverse; }
+.ring.r2 span b { animation-duration: 28s; animation-direction: normal; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---- 6: WORK ---- */
+.cases { display: grid; gap: 14px; margin-top: 6px; }
+.case { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+.case .tagline { font-family: var(--mono); font-size: 11px; color: var(--cyan); letter-spacing: .1em; }
+.case h3 { font-size: 22px; margin: 6px 0; }
+.case p { color: var(--muted); font-size: 14.5px; line-height: 1.55; }
+.case .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+.case .chips span { font-size: 11.5px; font-family: var(--mono); padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); }
+.case.soon { border-style: dashed; }
+.case.soon h3 { font-family: var(--mono); font-size: 16px; color: var(--cyan); }
+
+/* ---- 7: CONTACT ---- */
+.contact { text-align: center; align-items: center; }
+.contact h2 { font-size: clamp(40px, 10vw, 96px); }
+.contact-grid { display: grid; gap: 10px; max-width: 420px; margin: 26px auto 0; }
+.cbtn { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-radius: 14px; border: 1px solid var(--line); background: var(--panel); text-decoration: none; font-size: 15px; transition: border-color .2s, transform .2s; }
+.cbtn:hover { border-color: var(--cyan); transform: translateY(-2px); }
+.cbtn.primary { background: var(--lime); color: #111; border-color: var(--lime); font-weight: 600; }
+.cbtn small { font-family: var(--mono); font-size: 11px; opacity: .7; }
+.replay { margin-top: 20px; font-family: var(--mono); font-size: 12px; color: var(--muted); text-decoration: underline; text-underline-offset: 4px; }
+
+/* ================= DOCK: MASCOT + NEXT BUTTON ================= */
+.dock {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+  padding: 12px 14px calc(14px + var(--safe-b));
+  display: flex; align-items: flex-end; gap: 10px;
+  background: linear-gradient(transparent, rgba(5,8,10,.94) 30%);
+}
+.guide { flex: 1; min-width: 0; display: flex; gap: 8px; align-items: flex-end; }
+
+/* The mascot "Pixel": an original character, a little design frame come to life */
+.mascot { flex: none; width: 66px; height: 78px; transform-origin: 50% 100%; }
+.mascot svg { width: 100%; height: 100%; overflow: visible; }
+.mascot.pop { animation: mascotIn .8s cubic-bezier(.3,1.5,.5,1) both; }
+@keyframes mascotIn {
+  0% { transform: translateY(90px) scale(.3) rotate(-25deg); opacity: 0; }
+  60% { transform: translateY(-14px) scale(1.08) rotate(6deg); opacity: 1; }
+  80% { transform: translateY(3px) scale(.97) rotate(-2deg); }
+  100% { transform: none; }
+}
+.mascot .arm-r { transform-origin: 50px 44px; }
+.mascot.wave .arm-r { animation: wave .5s ease-in-out 3 alternate; }
+@keyframes wave { from { transform: rotate(0); } to { transform: rotate(-38deg); } }
+.mascot .lids { transform-origin: center 30px; animation: lids 4.5s infinite; }
+@keyframes lids { 0%, 94%, 100% { transform: scaleY(0); } 97% { transform: scaleY(1); } }
+.mascot .mouth { transform-origin: 33px 42px; }
+.guide.talking .mascot .mouth { animation: chat .16s ease-in-out infinite alternate; }
+@keyframes chat { to { transform: scaleY(.35); } }
+.mascot .body { animation: bob 3s ease-in-out infinite; transform-origin: 33px 60px; }
+@keyframes bob { 50% { transform: translateY(-3px); } }
+
+.chat { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.chat-name { font-family: var(--mono); font-size: 10.5px; color: var(--lime); letter-spacing: .14em; }
+.bubble {
+  position: relative; background: var(--panel); border: 1px solid var(--line); backdrop-filter: blur(10px);
+  border-radius: 16px 16px 16px 4px; padding: 11px 14px; font-size: 14.5px; line-height: 1.5;
+  min-height: 46px; max-height: 112px; overflow-y: auto; transform-origin: 0 100%;
+}
+.bubble.pop { animation: bubbleIn .45s cubic-bezier(.3,1.5,.5,1) both .35s; }
+@keyframes bubbleIn { from { transform: scale(.4); opacity: 0; } to { transform: none; opacity: 1; } }
+.bubble .fact { display: inline-block; font-family: var(--mono); font-size: 10.5px; color: #111; background: var(--lime); border-radius: 4px; padding: 1px 6px; margin-bottom: 4px; letter-spacing: .06em; }
+.bubble .cursor { display: inline-block; width: 7px; height: 15px; background: var(--cyan); vertical-align: -2px; margin-left: 2px; animation: blink .8s steps(2) infinite; }
+.chips-row { display: flex; gap: 6px; flex-wrap: wrap; min-height: 30px; }
+.chip { font-family: var(--mono); font-size: 11.5px; padding: 6px 11px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); background: rgba(12,20,24,.6); transition: .2s; opacity: 0; transform: translateY(6px); }
+.chip.show { opacity: 1; transform: none; }
+.chip:hover { color: var(--text); border-color: var(--cyan); }
+
+/* ---- NEXT button: animated arrow inside a charge ring ---- */
+.nav { flex: none; width: 76px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.next { position: relative; width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; background: #0c1418; transition: transform .25s cubic-bezier(.3,1.6,.5,1); overflow: hidden; }
+.next:active { transform: scale(.9); }
+.next .charge { position: absolute; inset: 0; }
+.next .charge circle { fill: none; stroke-width: 3; }
+.next .track { stroke: #1d2c31; }
+.next .fill { stroke: var(--lime); stroke-linecap: round; stroke-dasharray: 207; stroke-dashoffset: 207; transform: rotate(-90deg); transform-origin: center; transition: stroke-dashoffset .3s; }
+.next .arrows { position: relative; width: 30px; height: 20px; overflow: hidden; }
+.next .arrows svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: var(--cyan); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.next .arrows svg + svg { transform: translateX(-34px); }
+.next.ready { background: var(--lime); animation: ready 1.6s infinite; }
+.next.ready .track { stroke: transparent; }
+.next.ready .arrows svg { stroke: #111; animation: dash 1.2s cubic-bezier(.7,0,.3,1) infinite; }
+@keyframes dash { 0% { transform: translateX(0); } 45% { transform: translateX(34px); } 45.01% { transform: translateX(-34px); } 100% { transform: translateX(0); } }
+.next.ready .arrows svg + svg { animation: dash2 1.2s cubic-bezier(.7,0,.3,1) infinite; }
+@keyframes dash2 { 0% { transform: translateX(-34px); } 45% { transform: translateX(0); } 100% { transform: translateX(0); opacity: 0; } }
+@keyframes ready { 0% { box-shadow: 0 0 0 0 rgba(212,245,91,.6); } 70% { box-shadow: 0 0 0 16px rgba(212,245,91,0); } 100% { box-shadow: 0 0 0 0 rgba(212,245,91,0); } }
+.next.fire { animation: fire .35s ease-in forwards; }
+@keyframes fire { 50% { transform: scale(1.18); } 100% { transform: scale(.92); } }
+.next-label { font-family: var(--mono); font-size: 10.5px; color: var(--muted); letter-spacing: .06em; text-align: center; max-width: 90px; }
+.back { font-family: var(--mono); font-size: 11px; color: var(--muted); padding: 2px 6px; }
+.back[disabled] { visibility: hidden; }
+
+/* ================= SLIDE TRANSITION (colour bars wipe) ================= */
+.wipe { position: fixed; inset: 0; z-index: 35; pointer-events: none; display: flex; }
+.wipe i { flex: 1; transform: scaleY(0); }
+.wipe i:nth-child(odd) { transform-origin: top; } .wipe i:nth-child(even) { transform-origin: bottom; }
+.wipe i:nth-child(4n+1) { background: #0e3a44; } .wipe i:nth-child(4n+2) { background: var(--cyan); }
+.wipe i:nth-child(4n+3) { background: #2f3a0e; } .wipe i:nth-child(4n) { background: var(--lime); }
+.wipe-text { position: fixed; inset: 0; z-index: 36; display: grid; place-items: center; pointer-events: none; font-family: var(--mono); font-size: 13px; letter-spacing: .3em; color: #fff; opacity: 0; text-transform: uppercase; mix-blend-mode: difference; }
+
+/* ================= DESKTOP ================= */
+@media (min-width: 860px) {
+  :root { --dock-h: 40px; }
+  .slide { padding: 96px 48px 150px 48px; }
+  .dock { left: auto; right: 28px; bottom: 28px; width: 580px; padding: 0; background: none; }
+  .mascot { width: 88px; height: 104px; }
+  .identity { grid-template-columns: 300px 1fr; gap: 20px 56px; }
+  .identity .photo { grid-row: span 2; }
+  .identity .readout { grid-column: 2; }
+  .identity h2 { margin-bottom: 10px; }
+  .cases { grid-template-columns: 1fr 1fr 1fr; }
+  .cases .case:first-child { grid-column: span 3; }
+  .evo { grid-template-columns: repeat(4, 1fr); }
+  .evo::before { left: 22px; right: 22px; top: 21px; bottom: auto; width: auto; height: 2px; transform: scaleX(0); transform-origin: left; background: linear-gradient(90deg, var(--cyan), var(--lime)); }
+  .slide.shown .evo::before { animation-name: growX; }
+  @keyframes growX { to { transform: scaleX(1); } }
+  .stage-row { grid-template-columns: 1fr; }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .topbar { padding: 20px 28px; }
+}
+@media (min-width: 860px) and (max-height: 760px) {
+  .slide { padding-top: 80px; }
+  h2 { font-size: 48px; }
+}
+@media (max-width: 480px) {
+  .progress { display: none; }       /* the menu button shows position on phones */
+}
+@media (max-width: 380px) {
+  .pair { grid-template-columns: 1fr 22px 1fr; }
+  .readout div { grid-template-columns: 92px 1fr; }
+}
+
+/* ================= REDUCED MOTION ================= */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  #bg { display: none; }
+}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="grid-bg" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">Sadam<b>.</b></div>
+  <nav class="progress" id="progress" aria-label="Pages"></nav>
+  <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menu">
+    <span class="count" id="count">01/08</span> Menu <span class="burger"></span>
+  </button>
+</header>
+
+<!-- ================= MENU ================= -->
+<div class="menu" id="menu" aria-hidden="true">
+  <ol id="menuList"></ol>
+  <div class="menu-foot">Tip: scroll, swipe or use ← → keys to move between pages.</div>
+</div>
+
+<main class="stage" id="stage">
+
+  <!-- 00 INTRO -->
+  <section class="slide intro" data-name="Intro">
+    <div class="slide-inner">
+      <div class="hello ix">Hello, I'm</div>
+      <h1 class="ix" style="--d:1">SADAM<span>HUSSAIN</span></h1>
+      <p class="sub ix" style="--d:2">Senior UX Designer · Design Systems · AI&#8209;native products</p>
+      <div class="log">
+        <div class="ix" style="--d:4">&gt; 9+ years designing products</div>
+        <div class="ix" style="--d:5">&gt; research → UI → systems → code</div>
+        <div class="ix" style="--d:6">&gt; status: <span class="ok">open to new roles</span></div>
+      </div>
+      <div class="hint ix" style="--d:8"><span class="mouse"></span>Scroll, swipe or tap →</div>
+    </div>
+  </section>
+
+  <!-- 01 ABOUT -->
+  <section class="slide" data-name="About">
+    <div class="slide-inner identity">
+      <div class="photo ix">
+        <img src="assets/sadam.jpg" alt="Sadam Hussain">
+        <i class="corner c1"></i><i class="corner c2"></i><i class="corner c3"></i><i class="corner c4"></i>
+      </div>
+      <div>
+        <div class="kicker ix" style="--d:1">01 · About me</div>
+        <h2 class="ix" style="--d:2">Sadam<br><em>Hussain B</em></h2>
+      </div>
+      <dl class="readout">
+        <div class="ix" style="--d:3"><dt>ROLE</dt><dd>Senior UX Designer</dd></div>
+        <div class="ix" style="--d:4"><dt>BASE</dt><dd>Chennai, India</dd></div>
+        <div class="ix" style="--d:5"><dt>EXPERIENCE</dt><dd>9+ years</dd></div>
+        <div class="ix" style="--d:6"><dt>EDUCATION</dt><dd>B.E. Computer Science</dd></div>
+        <div class="ix" style="--d:7"><dt>LANGUAGES</dt><dd>English · Tamil · Hindi</dd></div>
+        <div class="ix" style="--d:8"><dt>STATUS</dt><dd class="live">Open to new roles</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 02 SKILLS -->
+  <section class="slide" data-name="Skills">
+    <div class="slide-inner">
+      <div class="kicker ix">02 · Skills</div>
+      <h2 class="ix" style="--d:1">Skills that work <em>together</em>.</h2>
+      <div class="pairs">
+        <div class="pair" style="--d:0"><span class="a">UX Research</span><i></i><span class="b">Usability Testing</span></div>
+        <div class="pair" style="--d:1"><span class="a">Wireframes</span><i></i><span class="b">High-fidelity UI</span></div>
+        <div class="pair" style="--d:2"><span class="a">Design Tokens</span><i></i><span class="b">Components</span></div>
+        <div class="pair" style="--d:3"><span class="a">Visual Design</span><i></i><span class="b">Prototyping</span></div>
+        <div class="pair" style="--d:4"><span class="a">HTML5</span><i></i><span class="b">CSS3</span></div>
+        <div class="pair" style="--d:5"><span class="a">Figma AI</span><i></i><span class="b">Claude Code</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 JOURNEY -->
+  <section class="slide" data-name="Journey">
+    <div class="slide-inner">
+      <div class="kicker ix">03 · Journey</div>
+      <h2 class="ix" style="--d:1">From pixels to <em>systems</em>.</h2>
+      <div class="evo">
+        <div class="stage-row ix" style="--d:2"><div class="cell">01</div>
+          <div class="stage-card"><div class="yr">WHERE IT STARTED</div><h3>Graphic Designer</h3><p>Photoshop, Illustrator and an eye for visual craft.</p></div></div>
+        <div class="stage-row ix" style="--d:4"><div class="cell">02</div>
+          <div class="stage-card"><div class="yr">2017 – 2020</div><h3>UI Engineer, Team Lead</h3><p>Xerago. Led a 28-member UI team building campaign front-ends.</p></div></div>
+        <div class="stage-row ix" style="--d:6"><div class="cell">03</div>
+          <div class="stage-card"><div class="yr">2021 – 2023</div><h3>UI/UX Designer</h3><p>CEM Business Solutions. Web and mobile apps, landing pages, email.</p></div></div>
+        <div class="stage-row now ix" style="--d:8"><div class="cell">04</div>
+          <div class="stage-card"><div class="yr">2023 – 2026</div><h3>Senior UX Specialist</h3><p>Open Weaver. Leading OpenSkein, an AI-native design system.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 FEATURED: OPENSKEIN -->
+  <section class="slide" data-name="OpenSkein">
+    <div class="slide-inner split">
+      <div>
+        <div class="kicker ix">04 · Featured project</div>
+        <h2 class="ix" style="--d:1">Open<em>Skein</em></h2>
+        <p class="lead ix" style="--d:2">An AI-native, multi-surface design system built from scratch. Hub-and-spoke architecture, a three-tier token system, and components generated with Figma AI and built into production UI with Claude Code.</p>
+      </div>
+      <div>
+        <div class="tiers">
+          <div class="tier t1"><b>TIER 1</b><div class="tier-row">
+            <i class="tok" style="--d:0;background:#4be3ff"></i><i class="tok" style="--d:1;background:#1e9fbf"></i><i class="tok" style="--d:2;background:#d4f55b"></i><i class="tok" style="--d:3;background:#8fb52a"></i><i class="tok" style="--d:4;background:#ff6b9a"></i><i class="tok" style="--d:5;background:#eaf6f8"></i><i class="tok" style="--d:6;background:#44565c"></i>
+          </div></div>
+          <div class="tier t2"><b>TIER 2</b><div class="tier-row">
+            <i class="tok" style="--d:6">surface</i><i class="tok" style="--d:7">action</i><i class="tok" style="--d:8">text</i><i class="tok" style="--d:9">danger</i>
+          </div></div>
+          <div class="tier t3"><b>TIER 3</b><div class="tier-row">
+            <i class="tok" style="--d:11">Button</i><i class="tok alt" style="--d:12">Tab</i><i class="tok" style="--d:13">Chip</i><i class="tok alt" style="--d:14">Input</i>
+          </div></div>
+        </div>
+        <div class="stats">
+          <div class="stat ix" style="--d:10"><b>50+</b><span>components</span></div>
+          <div class="stat ix" style="--d:11"><b>3</b><span>token tiers</span></div>
+          <div class="stat ix" style="--d:12"><b>AI</b><span>native workflow</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 TOOLKIT -->
+  <section class="slide" data-name="Toolkit">
+    <div class="slide-inner split">
+      <div>
+        <div class="kicker ix">05 · Toolkit</div>
+        <h2 class="ix" style="--d:1">The <em>toolkit</em>.</h2>
+        <p class="lead ix" style="--d:2">Design tools, AI tools and code, used together so ideas become working UI faster.</p>
+      </div>
+      <div class="orbit-wrap ix" style="--d:3">
+        <div class="ring">
+          <span style="--a:0deg;--r:min(170px,41vw)"><b>Figma</b></span>
+          <span style="--a:60deg;--r:min(170px,41vw)"><b>Photoshop</b></span>
+          <span style="--a:120deg;--r:min(170px,41vw)"><b>Illustrator</b></span>
+          <span style="--a:180deg;--r:min(170px,41vw)"><b>HTML5</b></span>
+          <span style="--a:240deg;--r:min(170px,41vw)"><b>CSS3</b></span>
+          <span style="--a:300deg;--r:min(170px,41vw)"><b>Adobe XD</b></span>
+        </div>
+        <div class="ring r2">
+          <span style="--a:30deg;--r:min(112px,27vw)"><b>Figma AI</b></span>
+          <span style="--a:150deg;--r:min(112px,27vw)"><b>Claude Code</b></span>
+          <span style="--a:270deg;--r:min(112px,27vw)"><b>Figma MCP</b></span>
+        </div>
+        <div class="core">UX<br>CORE</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 WORK -->
+  <section class="slide" data-name="Work">
+    <div class="slide-inner">
+      <div class="kicker ix">06 · Work</div>
+      <h2 class="ix" style="--d:1">Selected <em>work</em>.</h2>
+      <div class="cases">
+        <article class="case ix" style="--d:2">
+          <div class="tagline">CASE 01 · DESIGN SYSTEM</div>
+          <h3>OpenSkein at Open Weaver</h3>
+          <p>Built from scratch: token architecture, 50+ Figma components, documentation, and an AI workflow from design tokens to production UI.</p>
+          <div class="chips"><span>Design Systems</span><span>Tokens</span><span>Figma AI</span><span>Claude Code</span></div>
+        </article>
+        <!-- Replace these two with real case studies when ready -->
+        <article class="case soon ix" style="--d:3">
+          <div class="tagline">CASE 02 · UX RESEARCH</div>
+          <h3>Coming soon</h3>
+          <p>Research case study in progress.</p>
+        </article>
+        <article class="case soon ix" style="--d:4">
+          <div class="tagline">CASE 03 · PRODUCT DESIGN</div>
+          <h3>Coming soon</h3>
+          <p>Web and mobile case study in progress.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 CONTACT -->
+  <section class="slide contact" data-name="Contact">
+    <div class="slide-inner">
+      <div class="kicker ix" style="justify-content:center">07 · Contact</div>
+      <h2 class="ix" style="--d:1">Let's build<br><em>something.</em></h2>
+      <div class="contact-grid">
+        <a class="cbtn primary ix" style="--d:2" href="mailto:aaqilsadam@gmail.com">aaqilsadam@gmail.com <small>EMAIL ↗</small></a>
+        <a class="cbtn ix" style="--d:3" href="tel:+919942464202">+91 99424 64202 <small>CALL</small></a>
+        <!-- Replace # with your LinkedIn URL -->
+        <a class="cbtn ix" style="--d:4" href="#" target="_blank" rel="noopener">LinkedIn <small>PROFILE ↗</small></a>
+        <!-- Save your resume as assets/Sadam_Hussain_Resume.pdf -->
+        <a class="cbtn ix" style="--d:5" href="assets/Sadam_Hussain_Resume.pdf" download>Download CV <small>PDF ↓</small></a>
+      </div>
+      <button class="replay ix" style="--d:6" id="replay">↺ Start again</button>
+    </div>
+  </section>
+</main>
+
+<div class="wipe" id="wipe" aria-hidden="true"></div>
+<div class="wipe-text" id="wipeText" aria-hidden="true"></div>
+
+<!-- ================= DOCK: MASCOT + NEXT ================= -->
+<div class="dock">
+  <div class="guide" id="guide">
+    <div class="mascot" id="mascot" aria-hidden="true">
+      <!-- "Pixel": an original mascot, a friendly design frame with selection handles -->
+      <svg viewBox="0 0 66 78">
+        <ellipse cx="33" cy="75" rx="18" ry="3" fill="#000" opacity=".35"/>
+        <g class="body">
+          <!-- legs -->
+          <rect x="21" y="60" width="6" height="12" rx="3" fill="#8fb52a"/>
+          <rect x="39" y="60" width="6" height="12" rx="3" fill="#8fb52a"/>
+          <!-- left arm -->
+          <path d="M12 44 Q4 50 8 58" stroke="#d4f55b" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <!-- right arm (waves) -->
+          <g class="arm-r"><path d="M50 44 Q60 38 58 28" stroke="#d4f55b" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="58" cy="26" r="4" fill="#d4f55b"/></g>
+          <!-- body: rounded frame -->
+          <rect x="10" y="12" width="46" height="50" rx="12" fill="#d4f55b"/>
+          <rect x="10" y="12" width="46" height="50" rx="12" fill="none" stroke="#4be3ff" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <!-- selection handles -->
+          <rect x="7" y="9" width="6" height="6" fill="#05080a" stroke="#4be3ff" stroke-width="1.5"/>
+          <rect x="53" y="9" width="6" height="6" fill="#05080a" stroke="#4be3ff" stroke-width="1.5"/>
+          <rect x="7" y="59" width="6" height="6" fill="#05080a" stroke="#4be3ff" stroke-width="1.5"/>
+          <rect x="53" y="59" width="6" height="6" fill="#05080a" stroke="#4be3ff" stroke-width="1.5"/>
+          <!-- eyes -->
+          <rect x="20" y="24" width="9" height="12" rx="4.5" fill="#fff"/>
+          <rect x="37" y="24" width="9" height="12" rx="4.5" fill="#fff"/>
+          <circle cx="25" cy="31" r="2.6" fill="#05080a"/><circle cx="42" cy="31" r="2.6" fill="#05080a"/>
+          <g class="lids"><rect x="20" y="24" width="9" height="12" rx="4.5" fill="#b9d94a"/><rect x="37" y="24" width="9" height="12" rx="4.5" fill="#b9d94a"/></g>
+          <!-- cheeks -->
+          <circle cx="17" cy="41" r="2.5" fill="#ff6b9a" opacity=".6"/><circle cx="49" cy="41" r="2.5" fill="#ff6b9a" opacity=".6"/>
+          <!-- mouth -->
+          <path class="mouth" d="M27 40 Q33 47 39 40 Z" fill="#05080a"/>
+          <!-- antenna: a pen-tool node -->
+          <line x1="33" y1="12" x2="33" y2="4" stroke="#4be3ff" stroke-width="1.5"/>
+          <rect x="30" y="0" width="6" height="6" transform="rotate(45 33 3)" fill="#4be3ff"/>
+        </g>
+      </svg>
+    </div>
+    <div class="chat">
+      <div class="chat-name">PIXEL · AI GUIDE</div>
+      <div class="bubble" id="bubble" aria-live="polite"></div>
+      <div class="chips-row" id="chips"></div>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="next" id="next" aria-label="Next page">
+      <svg class="charge" viewBox="0 0 72 72"><circle class="track" cx="36" cy="36" r="33"/><circle class="fill" id="fill" cx="36" cy="36" r="33"/></svg>
+      <span class="arrows"><svg viewBox="0 0 30 20"><path d="M3 10h22M18 3l7 7-7 7"/></svg><svg viewBox="0 0 30 20"><path d="M3 10h22M18 3l7 7-7 7"/></svg></span>
+    </button>
+    <div class="next-label" id="nextLabel">Start</div>
+    <button class="back" id="back" disabled>‹ back</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   WHAT PIXEL SAYS on each page. Edit the text here.
+   "fact" is the interesting thing shown when Pixel pops in.
+   "more" appears when the visitor taps "Tell me more".
+   ============================================================ */
+const SCRIPT = [
+  { fact: "HELLO", say: ["Hi! I'm Pixel, Sadam's AI guide.", "I'll pop in on every page with something interesting about him.", "Tap the button, scroll or swipe to begin."],
+    more: "Lost? Open the Menu at the top right to jump to any page.", next: "Start" },
+  { fact: "DID YOU KNOW", say: ["Sadam began his career as a graphic designer.", "Then he learned to code, so he could build what he designed."],
+    more: "He also has a Computer Science degree, so developers are his teammates, not strangers.", next: "Skills" },
+  { fact: "INTERESTING", say: ["Sadam's skills come in pairs.", "He can design a screen and build it in HTML and CSS himself."],
+    more: "His newest pair is AI: Figma AI for components, Claude Code to turn designs into real UI.", next: "Journey" },
+  { fact: "FUN FACT", say: ["At Xerago, Sadam led a UI team of 28 people.", "That's a whole classroom of designers and developers!"],
+    more: "Each role added something new: craft, code, leadership, then systems thinking.", next: "OpenSkein" },
+  { fact: "BIG ONE", say: ["Sadam built OpenSkein from scratch.", "It has more than 50 components, all powered by design tokens."],
+    more: "One core system serves several products, thanks to its hub-and-spoke setup.", next: "Toolkit" },
+  { fact: "DID YOU KNOW", say: ["Sadam speaks three languages: English, Tamil and Hindi.", "And a fourth one: prompts, for talking to AI."],
+    more: "He uses role prompting, few-shot examples and chain-of-thought to keep AI output consistent.", next: "Work" },
+  { fact: "SNEAK PEEK", say: ["Here's the work.", "More case studies are on the way, so check back soon!"],
+    more: "Want the story behind a project? Ask Sadam. He loves walking through his process.", next: "Contact" },
+  { fact: "THAT'S THE TOUR", say: ["Thanks for visiting!", "Sadam is open to new roles right now. Email is the fastest way to reach him."],
+    more: "You can open the Menu anytime to revisit a page.", next: "Start again" },
+];
+
+/* ============================================================ */
+const slides = [...document.querySelectorAll('.slide')];
+const $ = (id) => document.getElementById(id);
+const bubble = $('bubble'), chips = $('chips'), guide = $('guide'), mascot = $('mascot');
+const nextBtn = $('next'), backBtn = $('back'), nextLabel = $('nextLabel'), fill = $('fill');
+const progress = $('progress'), count = $('count'), menuList = $('menuList');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const pad = (n) => String(n).padStart(2, '0');
+let cur = 0, busy = false, token = 0, skip = false, lastNav = 0;
+
+/* progress dots + menu items */
+slides.forEach((s, i) => {
+  const b = document.createElement('button');
+  b.setAttribute('aria-label', 'Go to ' + s.dataset.name);
+  b.onclick = () => go(i);
+  progress.appendChild(b);
+  const li = document.createElement('li');
+  li.innerHTML = `<button style="--d:${i}"><small>${pad(i)}</small>${s.dataset.name}</button>`;
+  li.firstChild.onclick = () => { closeMenu(); setTimeout(() => go(i), 250); };
+  menuList.appendChild(li);
+});
+
+/* ---------- menu ---------- */
+const menu = $('menu'), menuBtn = $('menuBtn');
+function openMenu() { document.body.classList.add('menu-open'); menuBtn.setAttribute('aria-expanded', 'true'); menu.setAttribute('aria-hidden', 'false'); }
+function closeMenu() { document.body.classList.remove('menu-open'); menuBtn.setAttribute('aria-expanded', 'false'); menu.setAttribute('aria-hidden', 'true'); }
+menuBtn.onclick = () => document.body.classList.contains('menu-open') ? closeMenu() : openMenu();
+
+/* ---------- Pixel talking ---------- */
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+const setCharge = (p) => fill.style.strokeDashoffset = 207 * (1 - p);
+const phone = () => innerWidth < 860;
+
+function popIn() {
+  mascot.classList.remove('pop', 'wave'); bubble.classList.remove('pop');
+  void mascot.offsetWidth;
+  mascot.classList.add('pop'); bubble.classList.add('pop');
+  setTimeout(() => mascot.classList.add('wave'), 700);
+}
+
+async function typeInto(p, text, my, charge) {
+  for (let c = 0; c < text.length; c++) {
+    if (my !== token) return false;
+    if (skip || reduce) { p.textContent = text; return true; }
+    p.innerHTML = text.slice(0, c + 1) + '<span class="cursor"></span>';
+    if (charge) charge();
+    bubble.scrollTop = bubble.scrollHeight;
+    await sleep('.?!'.includes(text[c]) ? 170 : 22);
+  }
+  p.textContent = text; return true;
+}
+
+async function speak(i) {
+  const my = ++token; skip = false;
+  const s = SCRIPT[i];
+  chips.innerHTML = ''; bubble.innerHTML = '';
+  nextBtn.classList.remove('ready'); setCharge(0);
+  popIn();
+  await sleep(reduce ? 0 : 750);
+  if (my !== token) return;
+  guide.classList.add('talking');
+  const total = s.say.join('').length; let typed = 0;
+  for (let m = 0; m < s.say.length; m++) {
+    if (phone() || m === 0) {
+      bubble.innerHTML = m === 0 || phone() ? `<span class="fact">${s.fact}</span>` : '';
+    }
+    const p = document.createElement('p');
+    if (!phone() && m) p.style.marginTop = '6px';
+    bubble.appendChild(p);
+    const ok = await typeInto(p, s.say[m], my, () => setCharge(++typed / total));
+    if (!ok) return;
+    if (!skip && !reduce && m < s.say.length - 1) await sleep(phone() ? 1100 : 350);
+  }
+  guide.classList.remove('talking');
+  setCharge(1); nextBtn.classList.add('ready');
+  addChip('Tell me more', () => tell(s.more));
+  if (i < slides.length - 1) addChip('Contact ›', () => go(slides.length - 1));
+}
+function addChip(label, fn) {
+  const c = document.createElement('button');
+  c.className = 'chip'; c.textContent = label; c.onclick = () => { c.remove(); fn(); };
+  chips.appendChild(c); requestAnimationFrame(() => c.classList.add('show'));
+}
+async function tell(text) {
+  const my = token;
+  if (phone()) bubble.innerHTML = '';
+  const p = document.createElement('p'); p.style.color = 'var(--cyan)'; if (!phone()) p.style.marginTop = '6px';
+  bubble.appendChild(p); guide.classList.add('talking');
+  mascot.classList.remove('wave'); void mascot.offsetWidth; mascot.classList.add('wave');
+  skip = false; await typeInto(p, text, my); guide.classList.remove('talking');
+}
+bubble.addEventListener('click', () => { skip = true; });
+
+/* ---------- colour-bar wipe transition ---------- */
+const wipe = $('wipe'), wipeText = $('wipeText');
+const BARS = innerWidth < 600 ? 10 : 18;
+for (let k = 0; k < BARS; k++) wipe.appendChild(document.createElement('i'));
+async function cover(label) {
+  if (reduce) return;
+  const bars = [...wipe.children];
+  wipeText.textContent = label;
+  await Promise.all(bars.map((b, k) => b.animate([{ transform: 'scaleY(0)' }, { transform: 'scaleY(1)' }], { duration: 380, delay: k * 28, easing: 'cubic-bezier(.7,0,.3,1)', fill: 'forwards' }).finished));
+  wipeText.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 160, fill: 'forwards' });
+  await sleep(240);
+}
+async function uncover() {
+  if (reduce) return;
+  const bars = [...wipe.children];
+  wipeText.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 120, fill: 'forwards' });
+  await Promise.all(bars.map((b, k) => b.animate([{ transform: 'scaleY(1)' }, { transform: 'scaleY(0)' }], { duration: 420, delay: (bars.length - k) * 24, easing: 'cubic-bezier(.7,0,.3,1)', fill: 'forwards' }).finished));
+}
+
+/* ---------- navigation ---------- */
+function show(i) {
+  slides.forEach((s, k) => s.classList.toggle('active', k === i));
+  slides[i].classList.remove('shown'); void slides[i].offsetWidth; slides[i].classList.add('shown');
+  slides[i].scrollTop = 0;
+  [...progress.children].forEach((b, k) => { b.classList.toggle('on', k === i); b.classList.toggle('done', k < i); });
+  [...menuList.querySelectorAll('button')].forEach((b, k) => b.classList.toggle('on', k === i));
+  count.textContent = pad(i + 1) + '/' + pad(slides.length);
+  nextLabel.textContent = SCRIPT[i].next;
+  backBtn.disabled = i === 0;
+  bgMood = i;
+  speak(i);
+}
+async function go(i) {
+  if (busy || i === cur || i < 0 || i >= slides.length) return;
+  busy = true; lastNav = Date.now();
+  nextBtn.classList.remove('fire'); void nextBtn.offsetWidth;
+  if (i > cur) nextBtn.classList.add('fire');
+  await cover(slides[i].dataset.name);
+  cur = i; show(cur);
+  await uncover();
+  busy = false; lastNav = Date.now(); nextBtn.classList.remove('fire');
+}
+const nextPage = () => cur === slides.length - 1 ? go(0) : go(cur + 1);
+nextBtn.onclick = nextPage;
+backBtn.onclick = () => go(cur - 1);
+$('replay').onclick = () => go(0);
+addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeMenu();
+  if (document.body.classList.contains('menu-open')) return;
+  if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); go(cur + 1); }
+  if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); go(cur - 1); }
+});
+
+/* ---------- scroll to move between pages ----------
+   If a page is taller than the screen, it scrolls first;
+   at the top/bottom edge, the next scroll moves to the next/previous page. */
+const atBottom = (el) => el.scrollTop + el.clientHeight >= el.scrollHeight - 2;
+const atTop = (el) => el.scrollTop <= 1;
+let wheelAcc = 0, wheelTimer;
+addEventListener('wheel', (e) => {
+  if (document.body.classList.contains('menu-open') || busy) return;
+  const el = slides[cur];
+  if (e.deltaY > 0 && !atBottom(el)) return;
+  if (e.deltaY < 0 && !atTop(el)) return;
+  if (Date.now() - lastNav < 700) return;       // ignore trackpad momentum after a page change
+  wheelAcc += e.deltaY;
+  clearTimeout(wheelTimer); wheelTimer = setTimeout(() => wheelAcc = 0, 200);
+  if (wheelAcc > 50) { wheelAcc = 0; go(cur + 1); }
+  else if (wheelAcc < -50) { wheelAcc = 0; go(cur - 1); }
+}, { passive: true });
+
+/* touch: swipe up/down (at page edges) or left/right */
+let sx = 0, sy = 0, startTop = true, startBottom = true;
+addEventListener('touchstart', (e) => {
+  sx = e.touches[0].clientX; sy = e.touches[0].clientY;
+  startTop = atTop(slides[cur]); startBottom = atBottom(slides[cur]);
+}, { passive: true });
+addEventListener('touchend', (e) => {
+  if (document.body.classList.contains('menu-open')) return;
+  if (e.target.closest('.dock')) return;
+  const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+  if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) return go(cur + (dx < 0 ? 1 : -1));
+  if (Math.abs(dy) > 70 && Math.abs(dy) > Math.abs(dx) * 1.5) {
+    if (dy < 0 && startBottom) go(cur + 1);
+    if (dy > 0 && startTop) go(cur - 1);
+  }
+}, { passive: true });
+
+/* ---------- background: drifting connected nodes ---------- */
+const cv = $('bg'), ctx = cv.getContext('2d');
+let W, H, dpr, bgMood = 0, nodes = [];
+function resize() {
+  dpr = Math.min(devicePixelRatio || 1, 2);
+  W = cv.width = innerWidth * dpr; H = cv.height = innerHeight * dpr;
+  const n = innerWidth < 600 ? 34 : 70;
+  nodes = Array.from({ length: n }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .25 * dpr, vy: (Math.random() - .5) * .25 * dpr, r: (1 + Math.random() * 2) * dpr, c: Math.random() < .5 ? '75,227,255' : '212,245,91' }));
+}
+addEventListener('resize', resize); resize();
+function drawBg() {
+  ctx.clearRect(0, 0, W, H);
+  const link = 120 * dpr, sp = 1 + bgMood * 0.15;
+  for (const p of nodes) {
+    p.x += p.vx * sp; p.y += p.vy * sp;
+    if (p.x < 0 || p.x > W) p.vx *= -1;
+    if (p.y < 0 || p.y > H) p.vy *= -1;
+  }
+  ctx.lineWidth = 1 * dpr;
+  for (let a = 0; a < nodes.length; a++) for (let b = a + 1; b < nodes.length; b++) {
+    const d = Math.hypot(nodes[a].x - nodes[b].x, nodes[a].y - nodes[b].y);
+    if (d < link) { ctx.strokeStyle = `rgba(120,200,220,${(1 - d / link) * .18})`; ctx.beginPath(); ctx.moveTo(nodes[a].x, nodes[a].y); ctx.lineTo(nodes[b].x, nodes[b].y); ctx.stroke(); }
+  }
+  for (const p of nodes) { ctx.fillStyle = `rgba(${p.c},.55)`; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.3); ctx.fill(); }
+  if (!reduce) requestAnimationFrame(drawBg);
+}
+requestAnimationFrame(drawBg);
+
+/* start */
+show(0);
+</script>
+</body>
+</html>
