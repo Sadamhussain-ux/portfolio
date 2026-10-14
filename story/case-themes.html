@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#05080a">
+<title>Theme System · Case Study · Sadam Hussain</title>
+<meta name="description" content="Case study: designing a 57-theme system so every AI-generated website in Open Weaver Studio looks different.">
+<meta property="og:title" content="57 themes, six websites, never the same look twice">
+<meta property="og:description" content="Case study by Sadam Hussain, Senior UX Designer: the theme system behind Open Weaver Studio.">
+<meta property="og:image" content="assets/case02/editor.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #05080a; --panel: #0c1418; --panel-2: #111b20; --line: rgba(120,220,255,.16);
+  --text: #eaf6f8; --muted: #8aa3aa; --cyan: #4be3ff; --lime: #d4f55b;
+  --display: 'Space Grotesk', system-ui, sans-serif; --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--display); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 760px) { .wrap { padding: 0 32px; } }
+
+/* top bar */
+.top { position: sticky; top: 0; z-index: 20; background: rgba(5,8,10,.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 58px; }
+.back { font-family: var(--mono); font-size: 12.5px; color: var(--muted); text-decoration: none; display: flex; gap: 8px; align-items: center; }
+.back:hover { color: var(--text); }
+.top .tag { font-family: var(--mono); font-size: 11.5px; color: var(--lime); letter-spacing: .12em; }
+
+/* sections */
+section { padding: 64px 0; border-bottom: 1px solid var(--line); }
+@media (min-width: 760px) { section { padding: 96px 0; } }
+.kicker { font-family: var(--mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--cyan); display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.kicker::before { content: ''; width: 22px; height: 1px; background: var(--cyan); }
+h1 { font-size: clamp(38px, 8vw, 84px); line-height: 1; letter-spacing: -.035em; font-weight: 700; }
+h1 em, h2 em { font-style: normal; color: var(--lime); }
+h2 { font-size: clamp(28px, 5vw, 48px); line-height: 1.05; letter-spacing: -.03em; font-weight: 700; margin-bottom: 16px; }
+h3 { font-size: 20px; letter-spacing: -.01em; margin-bottom: 6px; }
+p { color: var(--muted); font-size: 16.5px; max-width: 680px; }
+p strong { color: var(--text); font-weight: 500; }
+.lead { font-size: clamp(17px, 2.2vw, 20px); margin-top: 20px; }
+.two { display: grid; gap: 28px; }
+@media (min-width: 900px) { .two { grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; } }
+
+/* hero */
+.hero { padding-top: 48px; }
+.meta { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin-top: 36px; }
+@media (min-width: 760px) { .meta { grid-template-columns: repeat(4, 1fr); } }
+.meta div { background: var(--panel); padding: 14px 16px; }
+.meta small { display: block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; color: var(--muted); text-transform: uppercase; }
+.meta span { font-size: 14.5px; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+@media (min-width: 760px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+.stat { border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+.stat b { display: block; font-size: clamp(30px, 5vw, 44px); line-height: 1; color: var(--lime); }
+.stat span { font-size: 13px; color: var(--muted); }
+.hero-strip { display: flex; height: 10px; border-radius: 6px; overflow: hidden; margin-top: 30px; }
+.hero-strip i { flex: 1; }
+
+/* playground */
+.play { display: grid; gap: 18px; margin-top: 28px; }
+@media (min-width: 980px) { .play { grid-template-columns: 1.35fr 1fr; align-items: start; } }
+.filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
+.filters::-webkit-scrollbar { display: none; }
+.filters button { flex: none; font-family: var(--mono); font-size: 11.5px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.filters button.on { background: var(--lime); color: #111; border-color: var(--lime); }
+.picker { display: flex; gap: 8px; overflow-x: auto; padding: 8px 2px 12px; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+.pick { flex: none; scroll-snap-align: start; width: 128px; text-align: left; padding: 10px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel); transition: border-color .2s, transform .2s; }
+.pick:hover { transform: translateY(-2px); }
+.pick.on { border-color: var(--lime); box-shadow: 0 0 0 1px var(--lime); }
+.pick .sw { display: flex; gap: 4px; margin-bottom: 8px; }
+.pick .sw i { flex: 1; height: 18px; border-radius: 5px; }
+.pick span { font-size: 12.5px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pick small { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+
+/* the sample website (themed by CSS variables) */
+.browser { border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: var(--panel); }
+.browser .chrome { display: flex; align-items: center; gap: 6px; padding: 9px 12px; background: #0a1114; }
+.browser .chrome i { width: 9px; height: 9px; border-radius: 50%; background: #26363c; }
+.browser .chrome span { margin-left: 10px; font-family: var(--mono); font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.site {
+  --p: #3A59D1; --pt: #fff; --s: #F2C230; --st: #000; --base: #f4f4f4; --black: #111; --white: #fafafa;
+  --surf: var(--white); --ink: var(--black); --rad: 8px; --bd: 1px; --sh: 0 4px 14px rgba(0,0,0,.12);
+  --hf: system-ui; --bf: system-ui; --dw: 600; --hw: 600; --bw: 700;
+  background: var(--surf); color: var(--ink); font-family: var(--bf); transition: background .5s, color .5s;
+}
+.site * { transition: background-color .5s, color .5s, border-color .5s, border-radius .4s, box-shadow .4s; }
+.s-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 18px; border-bottom: var(--bd) solid color-mix(in srgb, var(--ink) 14%, transparent); }
+.s-logo { font-family: var(--hf); font-weight: var(--hw); font-size: 17px; display: flex; align-items: center; gap: 8px; }
+.s-logo i { width: 22px; height: 22px; border-radius: calc(var(--rad) * .6); background: var(--p); }
+.s-links { display: none; gap: 16px; font-size: 13.5px; opacity: .8; }
+@media (min-width: 520px) { .s-links { display: flex; } }
+.s-btn { display: inline-block; padding: 9px 16px; border-radius: var(--rad); font-weight: var(--bw); font-size: 13.5px; background: var(--p); color: var(--pt); border: var(--bd) solid color-mix(in srgb, var(--p) 70%, black); box-shadow: var(--sh); }
+.s-btn.alt { background: var(--s); color: var(--st); border-color: color-mix(in srgb, var(--s) 70%, black); }
+.s-hero { padding: 28px 18px 22px; display: grid; gap: 18px; }
+@media (min-width: 620px) { .s-hero { grid-template-columns: 1.2fr 1fr; align-items: center; padding: 38px 24px 28px; } }
+.s-hero small { font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--p); font-weight: 600; }
+.site.inv-p .s-hero small { color: var(--ink); opacity: .75; }
+.s-hero h4 { font-family: var(--hf); font-weight: var(--dw); font-size: clamp(24px, 4.2vw, 36px); line-height: 1.08; margin: 6px 0 10px; letter-spacing: -.01em; }
+.s-hero p { color: inherit; opacity: .75; font-size: 14px; max-width: none; }
+.s-hero .ctas { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+.s-art { aspect-ratio: 4/3; border-radius: calc(var(--rad) * 1.4); background: var(--p); position: relative; overflow: hidden; box-shadow: var(--sh); border: var(--bd) solid color-mix(in srgb, var(--ink) 15%, transparent); }
+.s-art::before { content: ''; position: absolute; width: 56%; aspect-ratio: 1; border-radius: 50%; background: var(--s); right: -12%; bottom: -18%; }
+.s-art::after { content: ''; position: absolute; width: 28%; aspect-ratio: 1; border-radius: 50%; background: color-mix(in srgb, var(--pt) 85%, transparent); left: 14%; top: 16%; }
+.s-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 18px 22px; }
+@media (min-width: 620px) { .s-cards { padding: 0 24px 28px; } }
+.s-card { background: var(--base); color: var(--black); border-radius: var(--rad); padding: 12px; border: var(--bd) solid color-mix(in srgb, var(--black) 12%, transparent); box-shadow: var(--sh); }
+.s-card b { display: block; width: 22px; height: 22px; border-radius: calc(var(--rad) * .6); background: var(--s); margin-bottom: 8px; }
+.s-card:nth-child(2) b { background: var(--p); }
+.s-card span { display: block; font-family: var(--hf); font-weight: var(--hw); font-size: 13px; line-height: 1.2; }
+.s-card em { display: block; height: 5px; border-radius: 3px; background: currentColor; opacity: .18; margin-top: 7px; font-style: normal; }
+.s-card em + em { width: 70%; }
+.s-foot { display: flex; gap: 6px; padding: 12px 18px; background: var(--p); color: var(--pt); font-size: 12px; justify-content: space-between; flex-wrap: wrap; }
+.s-foot span { opacity: .85; }
+
+/* side panel: tokens */
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+.panel h3 { font-size: 15px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.panel h3 small { font-family: var(--mono); font-size: 10.5px; color: var(--muted); font-weight: 400; }
+.tokens { display: grid; gap: 6px; margin-top: 12px; }
+.tok { display: grid; grid-template-columns: 38px 1fr auto; gap: 10px; align-items: center; font-size: 13px; }
+.tok i { height: 26px; border-radius: 7px; border: 1px solid rgba(255,255,255,.12); display: grid; place-items: center; font-style: normal; font-size: 12px; font-weight: 700; }
+.tok code { font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
+.tok .shared { font-family: var(--mono); font-size: 9.5px; color: var(--lime); border: 1px solid rgba(212,245,91,.4); border-radius: 4px; padding: 0 4px; margin-left: 6px; }
+.props { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 14px; }
+.props div { background: var(--panel-2); border-radius: 9px; padding: 8px 10px; }
+.props small { display: block; font-family: var(--mono); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+.props span { font-size: 13px; }
+.gen-btn { width: 100%; margin-top: 14px; padding: 13px; border-radius: 12px; background: var(--lime); color: #111; font-weight: 700; font-size: 15px; display: flex; justify-content: center; gap: 8px; align-items: center; }
+.gen-btn:active { transform: scale(.98); }
+
+/* six generated sites */
+.six { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 18px; }
+@media (min-width: 760px) { .six { grid-template-columns: repeat(3, 1fr); } }
+.mini { border-radius: 12px; overflow: hidden; border: 1px solid var(--line); cursor: pointer; text-align: left; animation: miniIn .5s cubic-bezier(.3,1.4,.5,1) both; animation-delay: calc(var(--i) * 90ms); }
+@keyframes miniIn { from { opacity: 0; transform: scale(.85) translateY(10px); } }
+.mini .m-site { padding: 10px; min-height: 120px; }
+.mini .m-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.mini .m-bar i { width: 14px; height: 14px; border-radius: 4px; }
+.mini .m-bar b { width: 30px; height: 10px; border-radius: 4px; }
+.mini h5 { font-size: 14px; line-height: 1.1; margin-bottom: 8px; }
+.mini .m-cta { display: inline-block; font-size: 10px; font-weight: 700; padding: 4px 8px; }
+.mini .m-name { background: var(--panel); padding: 7px 10px; font-family: var(--mono); font-size: 10.5px; color: var(--muted); display: flex; justify-content: space-between; gap: 6px; }
+.mini .m-name span:first-child { color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* anatomy diagram */
+.anat { display: grid; gap: 10px; margin-top: 26px; }
+@media (min-width: 760px) { .anat { grid-template-columns: repeat(3, 1fr); } }
+.anat .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+.anat .card .demo { height: 64px; border-radius: 10px; display: grid; place-items: center; font-weight: 700; margin-bottom: 12px; }
+.anat .card p { font-size: 14.5px; }
+.pairs-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.semantic { display: flex; gap: 6px; margin-bottom: 12px; }
+.semantic i { flex: 1; height: 64px; border-radius: 10px; display: grid; place-items: end start; padding: 6px; font-style: normal; font-family: var(--mono); font-size: 9.5px; color: #111; }
+
+/* surface presets */
+.presets { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 26px; }
+@media (min-width: 760px) { .presets { grid-template-columns: repeat(3, 1fr); } }
+.preset { border-radius: 14px; padding: 16px; min-height: 130px; border: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; gap: 10px; transition: background .5s, color .5s; }
+.preset b { font-size: 18px; }
+.preset small { font-family: var(--mono); font-size: 10.5px; opacity: .75; }
+.preset .bar { display: flex; gap: 4px; }
+.preset .bar i { height: 8px; flex: 1; border-radius: 4px; background: currentColor; opacity: .2; }
+.preset .bar i:first-child { opacity: 1; background: var(--pp); }
+.note { font-family: var(--mono); font-size: 11.5px; color: var(--muted); margin-top: 12px; }
+
+/* beyond colour */
+.bars { display: grid; gap: 14px; margin-top: 26px; }
+@media (min-width: 760px) { .bars { grid-template-columns: repeat(3, 1fr); } }
+.dist { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+.dist h3 { font-size: 15px; margin-bottom: 12px; }
+.dist .row { display: grid; grid-template-columns: 82px 1fr 26px; gap: 10px; align-items: center; font-size: 13px; margin-bottom: 8px; }
+.dist .row span:last-child { font-family: var(--mono); font-size: 12px; color: var(--muted); text-align: right; }
+.dist .track { height: 10px; background: var(--panel-2); border-radius: 6px; overflow: hidden; }
+.dist .track i { display: block; height: 100%; background: var(--cyan); border-radius: 6px; width: 0; transition: width 1s cubic-bezier(.2,.8,.2,1); }
+.dist.in .track i { width: var(--w); }
+.dist .row:nth-child(odd) .track i { background: var(--lime); }
+.fontpair { margin-top: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: grid; gap: 4px; }
+.fontpair .big { font-size: clamp(26px, 5vw, 40px); line-height: 1.1; }
+.fontpair .small { font-size: 15px; color: var(--muted); }
+.fontpair code { font-family: var(--mono); font-size: 11px; color: var(--cyan); }
+
+/* clusters */
+.clusters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.clusters span { padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); font-size: 14px; display: flex; gap: 8px; align-items: center; }
+.clusters span b { font-family: var(--mono); font-size: 11px; color: #111; background: var(--lime); border-radius: 999px; padding: 1px 7px; }
+
+/* screenshots */
+.shots { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 26px; }
+.shot { background: #fff; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
+.shot img { width: 100%; }
+figure figcaption { font-family: var(--mono); font-size: 11.5px; color: var(--muted); margin-top: 8px; }
+.wide { margin-top: 18px; }
+.wide .shot { overflow-x: auto; }
+
+/* outcome */
+.out { display: grid; gap: 10px; margin-top: 22px; }
+@media (min-width: 760px) { .out { grid-template-columns: repeat(3, 1fr); } }
+.out div { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+.out b { display: block; font-size: 17px; margin-bottom: 4px; }
+.out p { font-size: 14.5px; }
+ul.list { list-style: none; margin-top: 14px; display: grid; gap: 8px; max-width: 680px; }
+ul.list li { color: var(--muted); padding-left: 22px; position: relative; }
+ul.list li::before { content: ''; position: absolute; left: 0; top: .7em; width: 10px; height: 2px; background: var(--lime); }
+ul.list li strong { color: var(--text); font-weight: 500; }
+
+/* gallery */
+.gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 22px; }
+@media (min-width: 600px) { .gallery { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 900px) { .gallery { grid-template-columns: repeat(5, 1fr); } }
+.g { text-align: left; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); transition: transform .2s, border-color .2s; }
+.g:hover { transform: translateY(-3px); border-color: var(--cyan); }
+.g .gs { display: grid; grid-template-columns: 2fr 1fr 1fr; height: 56px; }
+.g .gs i:first-child { display: grid; place-items: center; font-style: normal; font-weight: 700; font-size: 15px; }
+.g .gn { padding: 8px 10px; background: var(--panel); }
+.g .gn span { font-size: 13px; display: block; }
+.g .gn small { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+
+/* footer */
+.end { text-align: center; padding: 80px 0; }
+.end h2 { margin-bottom: 22px; }
+.end .btns { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 22px; border-radius: 999px; border: 1px solid var(--line); text-decoration: none; font-weight: 600; font-size: 15px; }
+.btn.primary { background: var(--lime); color: #111; border-color: var(--lime); }
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .reveal { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <a class="back" href="./">← Back to portfolio</a>
+  <span class="tag">CASE 02</span>
+</div></header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="kicker">Case study 02 · Open Weaver Studio</div>
+      <h1>57 themes. Six websites.<br><em>Never the same look twice.</em></h1>
+      <p class="lead">Designing the theme system that lets an AI website builder give every generated website its own personality, while keeping text readable and components consistent.</p>
+      <div class="hero-strip" id="heroStrip"></div>
+      <div class="meta">
+        <div><small>Role</small><span>UX/UI Designer</span></div>
+        <div><small>Product</small><span>AI website builder</span></div>
+        <div><small>Scope</small><span>Theme system &amp; tokens</span></div>
+        <div><small>Tools</small><span>Figma, sheets, HTML/CSS</span></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>57</b><span>ready-made themes</span></div>
+        <div class="stat"><b id="pairCount">56</b><span>unique font pairings</span></div>
+        <div class="stat"><b>10</b><span>mood clusters</span></div>
+        <div class="stat"><b>1000+</b><span>clients published with Studio</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section>
+    <div class="wrap two">
+      <div class="reveal">
+        <div class="kicker">The problem</div>
+        <h2>Six websites from one brief can't all <em>look the same</em>.</h2>
+      </div>
+      <div class="reveal">
+        <p>In Open Weaver Studio, a user types a business name and a short description, and Studio generates <strong>six single-page websites</strong> to choose from. If those six share one colour scheme, the user is really choosing between layouts, not looks.</p>
+        <p style="margin-top:14px">We needed a theme system where each generated website could feel different (calm, bold, premium, playful) without breaking the components underneath or making text hard to read. And users had to be able to change it afterwards.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAYGROUND -->
+  <section id="play">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="kicker">Try it</div>
+        <h2>Pick a theme. Watch the <em>same website</em> change.</h2>
+        <p>Every theme below is real data from the Studio theme set. The layout never changes; only the theme does.</p>
+      </div>
+      <div class="filters" id="filters" style="margin-top:22px"></div>
+      <div class="picker" id="picker"></div>
+      <div class="play">
+        <div class="browser">
+          <div class="chrome"><i></i><i></i><i></i><span id="url">studio · preview</span></div>
+          <div class="site" id="site">
+            <div class="s-nav">
+              <div class="s-logo"><i></i>Brew &amp; Co.</div>
+              <div class="s-links"><span>Home</span><span>About</span><span>Services</span></div>
+              <span class="s-btn">Contact</span>
+            </div>
+            <div class="s-hero">
+              <div>
+                <small>Fresh every morning</small>
+                <h4>Small-batch coffee for slow mornings.</h4>
+                <p>A neighbourhood café roasting its own beans. Sample text, generated layout.</p>
+                <div class="ctas"><span class="s-btn">Visit us</span><span class="s-btn alt">See menu</span></div>
+              </div>
+              <div class="s-art"></div>
+            </div>
+            <div class="s-cards">
+              <div class="s-card"><b></b><span>Espresso bar</span><em></em><em></em></div>
+              <div class="s-card"><b></b><span>Roastery tours</span><em></em><em></em></div>
+              <div class="s-card"><b></b><span>Catering</span><em></em><em></em></div>
+            </div>
+            <div class="s-foot"><span>© Brew &amp; Co.</span><span>Built with Studio</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <h3><span id="tName">Frost Blue</span><small id="tMood">Tech &amp; Innovation</small></h3>
+          <div class="tokens" id="tokens"></div>
+          <div class="props" id="props"></div>
+          <button class="gen-btn" id="gen">⟳ Generate 6 websites</button>
+        </div>
+      </div>
+      <div class="six" id="six"></div>
+      <p class="note">Tip: tap any of the six to open it in the big preview.</p>
+    </div>
+  </section>
+
+  <!-- ANATOMY -->
+  <section>
+    <div class="wrap">
+      <div class="reveal">
+        <div class="kicker">The system</div>
+        <h2>Every colour comes with its <em>own text colour</em>.</h2>
+        <p>The core idea: colours never travel alone. Each brand colour is mapped to the text colour that sits on top of it, so any component can switch theme without anyone re-checking every button and banner.</p>
+      </div>
+      <div class="anat">
+        <div class="card reveal">
+          <div class="pairs-demo"><div class="demo" id="aP">Aa</div><div class="demo" id="aS">Aa</div></div>
+          <h3>Brand pairs</h3>
+          <p><strong>Primary + Primary Text</strong> and <strong>Secondary + Secondary Text</strong>. Buttons, highlights and headers always use a matched pair.</p>
+        </div>
+        <div class="card reveal">
+          <div class="pairs-demo"><div class="demo" id="aBase">Base</div><div class="demo" id="aBW">Ink</div></div>
+          <h3>Neutrals per theme</h3>
+          <p><strong>Base, Black and White</strong> are tuned for each theme (warmer or cooler greys) so cards and body text match the palette instead of fighting it.</p>
+        </div>
+        <div class="card reveal">
+          <div class="semantic"><i style="background:#FF6060">ERROR</i><i style="background:#66C8FF">INFO</i><i style="background:#FAB811">CAUTION</i><i style="background:#44C27E">SUCCESS</i></div>
+          <h3>Shared meaning</h3>
+          <p><strong>Error, Info, Caution and Success</strong> stay the same in all 57 themes, so a warning always looks like a warning.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SURFACES -->
+  <section>
+    <div class="wrap">
+      <div class="reveal">
+        <div class="kicker">Surfaces</div>
+        <h2>Lighter and darker versions, <em>from the same palette</em>.</h2>
+        <p>Instead of only white or black pages, each theme chooses a <strong>background</strong> and <strong>foreground</strong> preset: Light, Dark, Primary Light, Primary Dark, Secondary Light or Secondary. That gives tinted and deep surfaces that still belong to the brand. Here's the current theme in each preset:</p>
+      </div>
+      <div class="presets" id="presets"></div>
+      <p class="note">Preview tints are approximations for this page; Studio's exact surface values are defined per theme.</p>
+    </div>
+  </section>
+
+  <!-- BEYOND COLOUR -->
+  <section>
+    <div class="wrap">
+      <div class="reveal">
+        <div class="kicker">Beyond colour</div>
+        <h2>A theme is a <em>whole personality</em>.</h2>
+        <p>Colour alone wasn't enough to make six websites feel different. Each theme also sets a <strong>heading and body font pair</strong>, font weights for display, headings and buttons, and <strong>widget styles</strong>: shadow, border and corner radius.</p>
+      </div>
+      <div class="fontpair reveal" id="fontpair"></div>
+      <div class="bars" id="bars"></div>
+    </div>
+  </section>
+
+  <!-- ORGANISATION -->
+  <section>
+    <div class="wrap two">
+      <div class="reveal">
+        <div class="kicker">Organisation</div>
+        <h2>Tagged by <em>mood</em>, not just by colour.</h2>
+        <p>57 themes are hard to manage as a flat list. Every theme is tagged with a <strong>mood cluster</strong> and a <strong>theme family</strong>, so themes can be matched to the kind of business, from a clinic to a coffee shop to a law firm.</p>
+      </div>
+      <div class="reveal">
+        <div class="clusters" id="clusters"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CUSTOMISATION -->
+  <section>
+    <div class="wrap">
+      <div class="two">
+        <div class="reveal">
+          <div class="kicker">Make it yours</div>
+          <h2>Start from a theme, then <em>customise it</em>.</h2>
+          <p>Users aren't locked in. From the App Theme panel they can switch to any Studio theme, or open <strong>My Custom Theme</strong> and set their own primary and secondary colours, base text size, default font, background and foreground presets, and widget styles.</p>
+          <p style="margin-top:14px">Because components read from the token pairs, a user's custom colours flow through the whole website straight away.</p>
+        </div>
+        <div class="shots reveal">
+          <figure><div class="shot"><img src="assets/case02/theme-list.png" alt="App Theme panel listing Studio themes with colour swatches" loading="lazy"></div><figcaption>Theme picker</figcaption></figure>
+          <figure><div class="shot"><img src="assets/case02/custom-theme.png" alt="My Custom Theme panel with text, colour, preset and widget style settings" loading="lazy"></div><figcaption>Custom theme editor</figcaption></figure>
+        </div>
+      </div>
+      <figure class="wide reveal"><div class="shot"><img src="assets/case02/editor.png" alt="Studio editor showing a generated website using the custom theme" loading="lazy"></div><figcaption>The theme applied live in the Studio editor</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- OUTCOME -->
+  <section>
+    <div class="wrap">
+      <div class="reveal">
+        <div class="kicker">Outcome</div>
+        <h2>What the system <em>made possible</em>.</h2>
+      </div>
+      <div class="out">
+        <div class="reveal"><b>Real variety</b><p>57 themes with their own colours, fonts and widget styles, so the six websites in a set can each look clearly different.</p></div>
+        <div class="reveal"><b>Consistent components</b><p>One set of components, many looks. Matched colour and text pairs mean no per-website colour fixing.</p></div>
+        <div class="reveal"><b>User control</b><p>Any theme can be the starting point for a custom theme, edited without breaking the design.</p></div>
+      </div>
+      <div class="two" style="margin-top:44px">
+        <div class="reveal">
+          <h3>My role</h3>
+          <ul class="list">
+            <li><strong>Defined the colour mapping:</strong> primary, secondary and their text colours, plus per-theme neutrals.</li>
+            <li><strong>Designed the surface presets</strong> for lighter and darker backgrounds.</li>
+            <li><strong>Built the theme set</strong>, with font pairings, weights and widget styles for each theme.</li>
+            <li><strong>Designed the theme picker and custom theme flow</strong> in Studio.</li>
+          </ul>
+        </div>
+        <div class="reveal">
+          <h3>What I'd do next</h3>
+          <ul class="list">
+            <li><strong>Automatic contrast checks</strong> whenever a user picks custom colours, with a suggested fix if text becomes hard to read.</li>
+            <li><strong>Theme analytics:</strong> which themes users keep or change, to refine the set.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section>
+    <div class="wrap">
+      <div class="reveal">
+        <div class="kicker">The full set</div>
+        <h2>All <em>57 themes</em>.</h2>
+        <p>Tap any theme to load it into the preview above.</p>
+      </div>
+      <div class="gallery" id="gallery"></div>
+    </div>
+  </section>
+
+  <div class="end">
+    <div class="wrap">
+      <div class="kicker" style="justify-content:center">Thanks for reading</div>
+      <h2>Like how I <em>think about systems</em>?</h2>
+      <div class="btns">
+        <a class="btn primary" href="mailto:aaqilsadam@gmail.com">Email me ↗</a>
+        <a class="btn" href="https://www.linkedin.com/in/sadam-hussain-3a6233a7/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="btn" href="./">Back to portfolio</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+const THEMES = [{"name":"Frost Blue","p":"#3A59D1","pt":"#F5F7FF","s":"#4C8AF5","st":"#F5F9FF","base":"#F4F4F4","black":"#111111","white":"#FAFAFA","bg":"Light","fg":"Dark","font":"Source Sans 3","hfont":"Bricolage Grotesque","dw":"500","hw":"600","bw":"700","shadow":"Mild","border":"Thin","radius":"Slight","mood":"Tech & Innovation","family":"Sharp & Digital"},{"name":"Pure Rose","p":"#FE6C89","pt":"#FFF5F7","s":"#FF6060","st":"#FFFAFB","base":"#F8F8F8","black":"#212121","white":"#FAFAFA","bg":"Light","fg":"Dark","font":"Inter","hfont":"Outfit","dw":"400","hw":"500","bw":"600","shadow":"Mild","border":"Thin","radius":"Slight","mood":"Retail & Commerce","family":"Playful & Bright"},{"name":"Quiet Violet","p":"#5B1F75","pt":"#FDF7FF","s":"#7B38B5","st":"#FAF5FF","base":"#F8F8F8","black":"#1A1A1A","white":"#F9F9F9","bg":"Light","fg":"Dark","font":"Roboto","hfont":"Inter","dw":"500","hw":"500","bw":"700","shadow":"Mild","border":"Thin","radius":"Slight","mood":"Trust & Care","family":"Minimal & Clean"},{"name":"Neon Gold","p":"#FEE42F","pt":"#000000","s":"#FEBC2F","st":"#000000","base":"#E8E8E8","black":"#0A0A0A","white":"#F5F5F5","bg":"Dark","fg":"Light","font":"IBM Plex Sans","hfont":"Plus Jakarta Sans","dw":"600","hw":"600","bw":"700","shadow":"None","border":"Thick","radius":"Sharp","mood":"Tech & Innovation","family":"Neon & Dark"},{"name":"Lime Surge","p":"#C6FF00","pt":"#000000","s":"#90EA00","st":"#000000","base":"#E8E8E8","black":"#0A0A0A","white":"#F5F5F5","bg":"Dark","fg":"Light","font":"Space Grotesk","hfont":"DM Serif Display","dw":"400","hw":"400","bw":"600","shadow":"None","border":"Thick","radius":"Sharp","mood":"Bold & Energetic","family":"Neon & Dark"},{"name":"Neon Sky","p":"#3877FF","pt":"#F5F8FF","s":"#4592F3","st":"#FBFDFE","base":"#E8E8E8","black":"#0A0A0A","white":"#F5F5F5","bg":"Primary Dark","fg":"Primary Light","font":"IBM Plex Sans","hfont":"Space Grotesk","dw":"500","hw":"600","bw":"500","shadow":"None","border":"Thick","radius":"Sharp","mood":"Tech & Innovation","family":"Neon & Dark"},{"name":"Cocoa Bloom","p":"#543322","pt":"#F7F1EE","s":"#FFDECE","st":"#000000","base":"#F4F4F4","black":"#1A1A1A","white":"#F9F9F9","bg":"Primary Light","fg":"Primary Dark","font":"Nunito","hfont":"Newsreader","dw":"500","hw":"600","bw":"700","shadow":"Bold","border":"None","radius":"Significant","mood":"Earthy & Organic","family":"Warm & Artisan"},{"name":"Indigo Drift","p":"#192430","pt":"#F5F4EF","s":"#E3E3E3","st":"#000000","base":"#F0F0F0","black":"#111111","white":"#F9F9F9","bg":"Primary Light","fg":"Primary Dark","font":"Work Sans","hfont":"Manrope","dw":"500","hw":"600","bw":"600","shadow":"Bold","border":"None","radius":"Significant","mood":"Industrial & Trade","family":"Cool & Structured"},{"name":"Olive Shade","p":"#3F5141","pt":"#FCFBF8","s":"#FFF2CB","st":"#000000","base":"#F4F4F4","black":"#1A1A1A","white":"#F9F9F9","bg":"Primary Light","fg":"Primary Dark","font":"Nunito","hfont":"Quicksand","dw":"600","hw":"700","bw":"700","shadow":"Bold","border":"None","radius":"Significant","mood":"Earthy & Organic","family":"Soft & Inviting"},{"name":"Green Flash","p":"#4DA627","pt":"#FFFFFF","s":"#FEE169","st":"#000000","base":"#F0F0F0","black":"#111111","white":"#FAFAFA","bg":"Light","fg":"Dark","font":"Rubik","hfont":"Archivo","dw":"500","hw":"500","bw":"500","shadow":"None","border":"Thick","radius":"Slight","mood":"Bold & Energetic","family":"Bold & Vivid"},{"name":"Electric Navy","p":"#021A70","pt":"#FFFFFF","s":"#CBFF8A","st":"#000000","base":"#F0F0F0","black":"#0A0A0A","white":"#FAFAFA","bg":"Light","fg":"Dark","font":"Open Sans","hfont":"Oswald","dw":"500","hw":"500","bw":"600","shadow":"None","border":"Thick","radius":"Slight","mood":"Tech & Innovation","family":"Sharp & Digital"},{"name":"Neon Flame","p":"#F85405","pt":"#FFFFFF","s":"#1A1825","st":"#FFFFFF","base":"#F0F0F0","black":"#111111","white":"#FAFAFA","bg":"Light","fg":"Dark","font":"Rubik","hfont":"Anton","dw":"400","hw":"400","bw":"600","shadow":"None","border":"Thick","radius":"Slight","mood":"Bold & Energetic","family":"Bold & Vivid"},{"name":"Woodshade","p":"#51441B","pt":"#FDF7E4","s":"#FFE4CF","st":"#000000","base":"#F4F4F4","black":"#1A1A1A","white":"#F9F9F9","bg":"Primary Light","fg":"Primary Dark","font":"Karla","hfont":"Alegreya","dw":"500","hw":"600","bw":"700","shadow":"Mild","border":"Thick","radius":"Sharp","mood":"Earthy & Organic","family":"Warm & Artisan"},{"name":"Claytone","p":"#B47250","pt":"#F7F1EB","s":"#FFE1D6","st":"#000000","base":"#F8F8F8","black":"#1A1A1A","white":"#F9F9F9","bg":"Primary Light","fg":"Primary Dark","font":"Lora","hfont":"Merriweather","dw":"600","hw":"400","bw":"400","shadow":"Mild","border":"Thick","radius":"Sharp","mood":"Retail & Commerce","family":"Warm & Artisan"},{"name":"Slate Indigo","p":"#343E9A","pt":"#F3F4FF","s":"#DBE8FF","st":"#000000","base":"#F4F4F4","black":"#111111","white":"#FAFAFA","bg":"Primary Light","fg":"Primary Dark","font":"Source Sans Pro","hfont":"Karla","dw":"500","hw":"600","bw":"600","shadow":"Mild","border":"Thick","radius":"Sharp","mood":"Professional & Finance","family":"Cool & Structured"},{"name":"Dusky Rose","p":"#DF5043","pt":"#FCECEC","s":"#FF7247","st":"#FFFFFF","base":"#EEEEEE","black":"#0A0A0A","white":"#F7F7F7","bg":"Primary Dark","fg":"Primary Light","font":"Manrope","hfont":"Fraunces","dw":"500","hw":"600","bw":"600","shadow":"Mild","border":"Thin","radius":"Sharp","mood":"Bold & Energetic","family":"Elegant & Serif"},{"name":"Golden Dusk","p":"#FF923A","pt":"#FFF4EB","s":"#FFCA68","st":"#000000","base":"#EEEEEE","black":"#0A0A0A","white":"#F7F7F7","bg":"Primary Dark","fg":"Primary Light","font":"DM Sans","hfont":"Playfair Display","dw":"500","hw":"500","bw":"600","shadow":"Mild","border":"Thin","radius":"Sharp","mood":"Retail & Commerce","family":"Elegant & Serif"},{"name":"Midnight Violet","p":"#5E1FEC","pt":"#EFE9FD","s":"#4D00C0","st":"#FFFFFF","base":"#E8E8E8","black":"#0A0A0A","white":"#F5F5F5","bg":"Dark","fg":"Light","font":"DM Sans","hfont":"Marcellus","dw":"400","hw":"400","bw":"600","shadow":"Mild","border":"Thin","radius":"Sharp","mood":"Luxury & Premium","family":"Elegant & Serif"},{"name":"Candy Red","p":"#FD1942","pt":"#FFFFFF","s":"#17395C","st":"#FFFFFF","base":"#F4F4F4","black":"#111111","white":"#FAFAFA","bg":"Light","fg":"Dark","font":"Nunito","hfont":"Fredoka","dw":"500","hw":"500","bw":"700","shadow":"Mild","border":"Thick","radius":"Significant","mood":"Bold & Energetic","family":"Bold & Vivid"},{"name":"Indigo Pop","p":"#0A0045","pt":"#FFFFFF","s":"#D9F6DF","st":"#000000","base":"#F4F4F4","black":"#111111","white":"#FAFAFA","bg":"Light","fg":"Dark","font":"Open Sans","hfont":"Luckiest Guy","dw":"400","hw":"400","bw":"700","shadow":"Mild","border":"Thick","radius":"Significant","mood":"Tech & Innovation","family":"Playful & Bright"},{"name":"Minty Snap","p":"#63AB45","pt":"#FFFFFF","s":"#02444A","st":"#FFFFFF","base":"#F4F4F4","black":"#111111","white":"#FAFAFA","bg":"Light","fg":"Dark","font":"Open Sans","hfont":"Bitter","dw":"600","hw":"600","bw":"600","shadow":"Mild","border":"Thick","radius":"Significant","mood":"Earthy & Organic","family":"Playful & Bright"},{"name":"Teal Mist","p":"#4C8571","pt":"#F7FAF9","s":"#E5E5E5","st":"#000000","base":"#F8F8F8","black":"#212121","white":"#FAFAFA","bg":"Primary Light","fg":"Primary Dark","font":"Work Sans","hfont":"Albert Sans","dw":"600","hw":"600","bw":"600","shadow":"None","border":"Thin","radius":"Sharp","mood":"Trust & Care","family":"Cool & Structured"},{"name":"Faded Clay","p":"#FF8159","pt":"#F5F7FA","s":"#E5E5E5","st":"#000000","base":"#F8F8F8","black":"#212121","white":"#F9F9F9","bg":"Light","fg":"Dark","font":"Lato","hfont":"Public Sans","dw":"600","hw":"600","bw":"700","shadow":"None","border":"Thin","radius":"Sharp","mood":"Retail & Commerce","family":"Minimal & Clean"},{"name":"Clouded Blue","p":"#66A2ED","pt":"#F3F8FF","s":"#E5E5E5","st":"#000000","base":"#F8F8F8","black":"#212121","white":"#FAFAFA","bg":"Primary Light","fg":"Primary Dark","font":"Roboto","hfont":"DM Sans","dw":"500","hw":"600","bw":"600","shadow":"None","border":"Thin","radius":"Sharp","mood":"Education & Knowledge","family":"Cool & Structured"},{"name":"Blackstage","p":"#060606","pt":"#FFFFFF","s":"#EDF0F4","st":"#000000","base":"#F0F0F0","black":"#0A0A0A","white":"#FFFFFF","bg":"Light","fg":"Dark","font":"DM Sans","hfont":"Sora","dw":"500","hw":"600","bw":"600","shadow":"Mild","border":"Thin","radius":"Slight","mood":"Tech & Innovation","family":"Sharp & Digital"},{"name":"Neutral Fade","p":"#B4B2B2","pt":"#000000","s":"#EDF0F4","st":"#000000","base":"#F8F8F8","black":"#2C2C2C","white":"#F9F9F9","bg":"Light","fg":"Dark","font":"Lato","hfont":"Chivo","dw":"500","hw":"500","bw":"700","shadow":"Mild","border":"Thin","radius":"Slight","mood":"Professional & Finance","family":"Cool & Structured"},{"name":"Ivory Gold","p":"#C9A84C","pt":"#1A1611","s":"#E8D5A3","st":"#1A1611","base":"#F8F8F8","black":"#1A1A1A","white":"#F9F9F9","bg":"Primary Light","fg":"Dark","font":"Be Vietnam Pro","hfont":"Jost","dw":"400","hw":"500","bw":"600","shadow":"Mild","border":"Thin","radius":"Sharp","mood":"Luxury & Premium","family":"Elegant & Serif"},{"name":"Obsidian Gold","p":"#C9A84C","pt":"#1A1208","s":"#2E2410","st":"#FAF6EC","base":"#E8E8E8","black":"#0A0A0A","white":"#F7F7F7","bg":"Primary Dark","fg":"Primary Light","font":"Playfair Display","hfont":"Raleway","dw":"400","hw":"500","bw":"600","shadow":"Mild","border":"Thin","radius":"Sharp","mood":"Luxury & Premium","family":"Elegant & Serif"},{"name":"Pearl Blush","p":"#B07878","pt":"#1A1010","s":"#EDD9D9","st":"#1A1010","base":"#F8F8F8","black":"#212121","white":"#F9F9F9","bg":"Secondary Light","fg":"Dark","font":"Encode Sans","hfont":"Nunito Sans","dw":"400","hw":"500","bw":"600","shadow":"Bold","border":"None","radius":"Significant","mood":"Luxury & Premium","family":"Soft & Inviting"},{"name":"Platinum Dark","p":"#D4D4D4","pt":"#0D1B2A","s":"#1E2D3D","st":"#F4F6F8","base":"#E8E8E8","black":"#0A0A0A","white":"#F5F5F5","bg":"Primary Dark","fg":"Primary Light","font":"Encode Sans","hfont":"Inter","dw":"500","hw":"600","bw":"600","shadow":"Mild","border":"Thin","radius":"Slight","mood":"Luxury & Premium","family":"Sharp & Digital"},{"name":"Sage Clinic","p":"#2A7A5A","pt":"#FFFFFF","s":"#A8D5C2","st":"#0A1F17","base":"#F8F8F8","black":"#212121","white":"#FFFFFF","bg":"Light","fg":"Dark","font":"Plus Jakarta Sans","hfont":"Source Sans 3","dw":"500","hw":"600","bw":"700","shadow":"None","border":"Thin","radius":"Sharp","mood":"Trust & Care","family":"Minimal & Clean"},{"name":"Lavender Care","p":"#7B5EA7","pt":"#F5F0FF","s":"#D6C8F0","st":"#110D1A","base":"#F8F8F8","black":"#212121","white":"#F9F9F9","bg":"Secondary Light","fg":"Dark","font":"Nunito","hfont":"DM Sans","dw":"500","hw":"500","bw":"700","shadow":"Bold","border":"None","radius":"Significant","mood":"Trust & Care","family":"Soft & Inviting"},{"name":"Harvest Amber","p":"#D46A2A","pt":"#FFFFFF","s":"#F5D5B0","st":"#1F0E00","base":"#F4F4F4","black":"#1A1A1A","white":"#F9F9F9","bg":"Light","fg":"Dark","font":"Lora","hfont":"Karla","dw":"500","hw":"600","bw":"700","shadow":"Bold","border":"None","radius":"Significant","mood":"Earthy & Organic","family":"Warm & Artisan"},{"name":"Forest Fresh","p":"#3A7A2A","pt":"#F2F8F0","s":"#B8DCA8","st":"#0A1A07","base":"#F4F4F4","black":"#1A1A1A","white":"#F9F9F9","bg":"Light","fg":"Dark","font":"Bitter","hfont":"Open Sans","dw":"500","hw":"600","bw":"700","shadow":"Bold","border":"None","radius":"Significant","mood":"Earthy & Organic","family":"Warm & Artisan"},{"name":"Sunshine Learn","p":"#F5A800","pt":"#1A1000","s":"#FFE0A0","st":"#1A1000","base":"#F8F8F8","black":"#212121","white":"#FAFAFA","bg":"Secondary Light","fg":"Dark","font":"Nunito","hfont":"Poppins","dw":"500","hw":"500","bw":"700","shadow":"Bold","border":"None","radius":"Significant","mood":"Education & Knowledge","family":"Soft & Inviting"},{"name":"Sky Scholar","p":"#1A6BAD","pt":"#FEF9EF","s":"#A8D0F0","st":"#061525","base":"#F8F8F8","black":"#212121","white":"#FAFAFA","bg":"Light","fg":"Dark","font":"Plus Jakarta Sans","hfont":"Rubik","dw":"500","hw":"600","bw":"700","shadow":"None","border":"Thin","radius":"Sharp","mood":"Education & Knowledge","family":"Minimal & Clean"},{"name":"Industrial Blaze","p":"#FF6B35","pt":"#1A1A1A","s":"#2E2E2E","st":"#F5F5F5","base":"#E8E8E8","black":"#1A1A1A","white":"#F5F5F5","bg":"Dark","fg":"Light","font":"DM Sans","hfont":"Sora","dw":"500","hw":"600","bw":"700","shadow":"None","border":"Thick","radius":"Sharp","mood":"Industrial & Trade","family":"Neon & Dark"},{"name":"Steel Grey","p":"#2C3E50","pt":"#F5F7FA","s":"#BDC3C7","st":"#0A1018","base":"#F0F0F0","black":"#111111","white":"#F9F9F9","bg":"Primary Light","fg":"Primary Dark","font":"Manrope","hfont":"Syne","dw":"500","hw":"600","bw":"700","shadow":"None","border":"Thick","radius":"Sharp","mood":"Industrial & Trade","family":"Cool & Structured"},{"name":"Saffron Spirit","p":"#E87A2A","pt":"#1A0D00","s":"#F5D0A0","st":"#1A0D00","base":"#F4F4F4","black":"#1A1A1A","white":"#F9F9F9","bg":"Secondary Light","fg":"Dark","font":"Manrope","hfont":"DM Serif Display","dw":"500","hw":"600","bw":"700","shadow":"Mild","border":"Thick","radius":"Slight","mood":"Creative & Cultural","family":"Rich & Cultural"},{"name":"Temple Crimson","p":"#5D0214","pt":"#FFFFFF","s":"#E7BE7E","st":"#040404","base":"#EEEEEE","black":"#0A0A0A","white":"#F7F7F7","bg":"Secondary Light","fg":"Dark","font":"Plus Jakarta Sans","hfont":"Raleway","dw":"500","hw":"600","bw":"700","shadow":"Mild","border":"Thick","radius":"Slight","mood":"Creative & Cultural","family":"Rich & Cultural"},{"name":"Cosmic Ink","p":"#8A2BE2","pt":"#F0EEFF","s":"#2E1A5A","st":"#F0EEFF","base":"#E8E8E8","black":"#0A0A0A","white":"#F5F5F5","bg":"Primary Dark","fg":"Light","font":"Lato","hfont":"Playfair Display","dw":"500","hw":"600","bw":"700","shadow":"Mild","border":"Thick","radius":"Slight","mood":"Creative & Cultural","family":"Rich & Cultural"},{"name":"Corporate Trust","p":"#1A3A6B","pt":"#F0F4FF","s":"#B0C4DE","st":"#060E1F","base":"#F4F4F4","black":"#111111","white":"#FAFAFA","bg":"Secondary Light","fg":"Dark","font":"Tinos","hfont":"Raleway","dw":"500","hw":"600","bw":"700","shadow":"Mild","border":"Thick","radius":"Slight","mood":"Professional & Finance","family":"Rich & Cultural"},{"name":"Market Pop","p":"#FF5722","pt":"#FFFFFF","s":"#FFCCBC","st":"#1A0A00","base":"#F4F4F4","black":"#111111","white":"#FAFAFA","bg":"Light","fg":"Dark","font":"Signika","hfont":"Russo One","dw":"400","hw":"400","bw":"600","shadow":"None","border":"Thick","radius":"Slight","mood":"Retail & Commerce","family":"Bold & Vivid"},{"name":"Warm Boutique","p":"#8B5E52","pt":"#FDF6F0","s":"#E8C5B5","st":"#150A07","base":"#F8F8F8","black":"#1A1A1A","white":"#F9F9F9","bg":"Secondary Light","fg":"Dark","font":"Zilla Slab","hfont":"Enriqueta","dw":"400","hw":"500","bw":"600","shadow":"Bold","border":"None","radius":"Significant","mood":"Retail & Commerce","family":"Warm & Artisan"},{"name":"Blanc Noir","p":"#272727","pt":"#FFFFFF","s":"#E8E8E8","st":"#0D0D0D","base":"#F0F0F0","black":"#272727","white":"#FFFFFF","bg":"Light","fg":"Dark","font":"Spectral","hfont":"Jost","dw":"500","hw":"500","bw":"600","shadow":"None","border":"Thin","radius":"Sharp","mood":"Luxury & Premium","family":"Minimal & Clean"},{"name":"Cream Obsidian","p":"#1A1A1A","pt":"#FAF7F2","s":"#FAF7F2","st":"#1A1A1A","base":"#F4F4F4","black":"#111111","white":"#F9F9F9","bg":"Secondary","fg":"Dark","font":"Raleway","hfont":"Libre Baskerville","dw":"400","hw":"500","bw":"600","shadow":"None","border":"Thin","radius":"Sharp","mood":"Luxury & Premium","family":"Minimal & Clean"},{"name":"Navy Crest","p":"#1B2A4A","pt":"#F4F6FA","s":"#C8B560","st":"#060D1A","base":"#F4F4F4","black":"#111111","white":"#FAFAFA","bg":"Primary Light","fg":"Dark","font":"Inter","hfont":"Barlow","dw":"600","hw":"600","bw":"700","shadow":"None","border":"Thick","radius":"Sharp","mood":"Professional & Finance","family":"Cool & Structured"},{"name":"Maroon Authority","p":"#5C1A2E","pt":"#F7F4F0","s":"#B8A06A","st":"#0F0508","base":"#F4F4F4","black":"#1A1A1A","white":"#F9F9F9","bg":"Secondary Light","fg":"Dark","font":"Crimson Pro","hfont":"Prata","dw":"400","hw":"400","bw":"600","shadow":"Mild","border":"Thick","radius":"Slight","mood":"Professional & Finance","family":"Rich & Cultural"},{"name":"Arctic White","p":"#0A7EA4","pt":"#FFFFFF","s":"#E0F4FA","st":"#021820","base":"#F8F8F8","black":"#212121","white":"#FFFFFF","bg":"Light","fg":"Dark","font":"Figtree","hfont":"Lexend Deca","dw":"500","hw":"600","bw":"600","shadow":"None","border":"Thin","radius":"Sharp","mood":"Trust & Care","family":"Minimal & Clean"},{"name":"Rainbow Bloom","p":"#FF6B6B","pt":"#FFF5F5","s":"#FFE066","st":"#1A0A00","base":"#F8F8F8","black":"#212121","white":"#FAFAFA","bg":"Secondary Light","fg":"Dark","font":"Quicksand","hfont":"Fredoka","dw":"500","hw":"500","bw":"600","shadow":"Mild","border":"Thick","radius":"Significant","mood":"Education & Knowledge","family":"Playful & Bright"},{"name":"Bubbly Teal","p":"#00B4A6","pt":"#001A18","s":"#FFD166","st":"#001A18","base":"#F8F8F8","black":"#212121","white":"#FAFAFA","bg":"Primary Light","fg":"Dark","font":"Mulish","hfont":"Righteous","dw":"400","hw":"400","bw":"700","shadow":"Mild","border":"Thick","radius":"Significant","mood":"Education & Knowledge","family":"Playful & Bright"},{"name":"Graphite Ivory","p":"#C8B89A","pt":"#1C1C1C","s":"#2E2E2E","st":"#FAF8F4","base":"#EEEEEE","black":"#1C1C1C","white":"#F7F7F7","bg":"Dark","fg":"Light","font":"Manrope","hfont":"Exo 2","dw":"600","hw":"600","bw":"700","shadow":"None","border":"Thick","radius":"Sharp","mood":"Luxury & Premium","family":"Neon & Dark"},{"name":"Teal Beige","p":"#2A8C7A","pt":"#FFFFFF","s":"#A8D5C8","st":"#0A1A16","base":"#F4F4F4","black":"#1A1A1A","white":"#F9F9F9","bg":"Secondary Light","fg":"Dark","font":"Nunito Sans","hfont":"Lora","dw":"500","hw":"500","bw":"600","shadow":"Bold","border":"None","radius":"Significant","mood":"Earthy & Organic","family":"Warm & Artisan"},{"name":"Violet Teal","p":"#5C2D91","pt":"#F8F5FF","s":"#1A9A8A","st":"#F3FFFD","base":"#F0F0F0","black":"#111111","white":"#FAFAFA","bg":"Primary Light","fg":"Dark","font":"Urbanist","hfont":"Syne","dw":"600","hw":"600","bw":"700","shadow":"None","border":"Thick","radius":"Slight","mood":"Creative & Cultural","family":"Bold & Vivid"},{"name":"Amber Dusk","p":"#B8860B","pt":"#FFFEFC","s":"#F5E6C8","st":"#150E00","base":"#F4F4F4","black":"#1A1A1A","white":"#F9F9F9","bg":"Primary Light","fg":"Dark","font":"Karla","hfont":"Playfair Display","dw":"500","hw":"500","bw":"500","shadow":"Bold","border":"None","radius":"Significant","mood":"Earthy & Organic","family":"Warm & Artisan"},{"name":"Solar Teal","p":"#F5C800","pt":"#1A1A1A","s":"#0D6B6B","st":"#FFFFF0","base":"#E8E8E8","black":"#1A1A1A","white":"#F5F5F5","bg":"Dark","fg":"Light","font":"Manrope","hfont":"Oxanium","dw":"500","hw":"500","bw":"700","shadow":"None","border":"Thick","radius":"Sharp","mood":"Bold & Energetic","family":"Neon & Dark"},{"name":"Lavender Emerald","p":"#7B68EE","pt":"#F8F5FF","s":"#2ECC8A","st":"#0D0B1A","base":"#F8F8F8","black":"#212121","white":"#FAFAFA","bg":"Light","fg":"Dark","font":"Quicksand","hfont":"Nunito Sans","dw":"400","hw":"500","bw":"700","shadow":"Mild","border":"Thick","radius":"Significant","mood":"Creative & Cultural","family":"Playful & Bright"}];
+const $ = (id) => document.getElementById(id);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- helpers: map Studio's preset names to colours ---------- */
+const mix = (a, b, pct) => `color-mix(in srgb, ${a} ${pct}%, ${b})`;
+function surface(t, name) {
+  switch ((name || '').trim()) {
+    case 'Dark': return t.black;
+    case 'Primary Light': return mix(t.p, t.white, 12);
+    case 'Primary Dark': return mix(t.p, '#000', 55);
+    case 'Secondary Light': return mix(t.s, t.white, 18);
+    case 'Secondary': return t.s;
+    default: return t.white;
+  }
+}
+function ink(t, name) {
+  switch ((name || '').trim()) {
+    case 'Light': return t.white;
+    case 'Primary Light': return mix(t.p, '#fff', 14);
+    case 'Primary Dark': return mix(t.p, '#000', 45);
+    default: return t.black;
+  }
+}
+const SH = { None: 'none', Mild: '0 4px 14px rgba(0,0,0,.14)', Bold: '0 10px 28px rgba(0,0,0,.28)' };
+const BD = { None: '0px', Thin: '1px', Thick: '2px' };
+const RAD = { Sharp: '2px', Slight: '8px', Significant: '20px' };
+
+/* load each theme's Google Fonts only when needed */
+const loaded = new Set();
+function loadFonts(t) {
+  [t.font, t.hfont].forEach((f) => {
+    f = f.trim(); if (!f || loaded.has(f)) return; loaded.add(f);
+    const l = document.createElement('link'); l.rel = 'stylesheet';
+    l.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(f).replace(/%20/g, '+') + ':wght@400;500;600;700&display=swap';
+    document.head.appendChild(l);
+  });
+}
+function applyVars(el, t) {
+  const v = { '--p': t.p, '--pt': t.pt, '--s': t.s, '--st': t.st, '--base': t.base, '--black': t.black, '--white': t.white,
+    '--surf': surface(t, t.bg), '--ink': ink(t, t.fg), '--rad': RAD[t.radius] || '8px', '--bd': BD[t.border] || '1px', '--sh': SH[t.shadow] || 'none',
+    '--hf': `'${t.hfont.trim()}', system-ui, sans-serif`, '--bf': `'${t.font.trim()}', system-ui, sans-serif`, '--dw': t.dw, '--hw': t.hw, '--bw': t.bw };
+  for (const k in v) el.style.setProperty(k, v[k]);
+  el.classList.toggle('inv-p', (t.bg || '').includes('Primary Dark'));
+}
+
+/* ---------- hero strip ---------- */
+$('heroStrip').innerHTML = THEMES.map((t) => `<i style="background:${t.p}"></i>`).join('');
+
+/* ---------- filters + picker ---------- */
+const moods = ['All', ...new Set(THEMES.map((t) => t.mood))];
+let filter = 'All', current = 0;
+$('filters').innerHTML = moods.map((m) => `<button data-m="${m}" class="${m === 'All' ? 'on' : ''}">${m}</button>`).join('');
+$('filters').onclick = (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  filter = b.dataset.m; [...$('filters').children].forEach((x) => x.classList.toggle('on', x === b)); renderPicker();
+};
+function renderPicker() {
+  $('picker').innerHTML = THEMES.map((t, i) => (filter === 'All' || t.mood === filter) ?
+    `<button class="pick ${i === current ? 'on' : ''}" data-i="${i}"><div class="sw"><i style="background:${t.p}"></i><i style="background:${t.s}"></i><i style="background:${t.base}"></i></div><span>${t.name}</span><small>${t.family.trim()}</small></button>` : '').join('');
+}
+$('picker').onclick = (e) => { const b = e.target.closest('.pick'); if (b) select(+b.dataset.i); };
+
+/* ---------- select a theme ---------- */
+function select(i, scroll) {
+  current = i; const t = THEMES[i];
+  loadFonts(t); applyVars($('site'), t);
+  $('url').textContent = 'studio · ' + t.name.toLowerCase().replace(/\s+/g, '-') + '.site';
+  $('tName').textContent = t.name; $('tMood').textContent = t.mood;
+  const row = (bg, fg, label, code, shared) => `<div class="tok"><i style="background:${bg};color:${fg || 'transparent'}">${fg ? 'Aa' : ''}</i><span>${label}${shared ? '<span class="shared">SHARED</span>' : ''}</span><code>${code}</code></div>`;
+  $('tokens').innerHTML =
+    row(t.p, t.pt, 'Primary / Primary Text', t.p + ' / ' + t.pt) +
+    row(t.s, t.st, 'Secondary / Secondary Text', t.s + ' / ' + t.st) +
+    row(t.base, t.black, 'Base', t.base) +
+    row(t.black, t.white, 'Black', t.black) +
+    row(t.white, t.black, 'White', t.white);
+  $('props').innerHTML = [['Background', t.bg], ['Foreground', t.fg], ['Heading font', t.hfont], ['Body font', t.font], ['Shadow · Border', t.shadow + ' · ' + t.border], ['Corners', t.radius]]
+    .map(([k, v]) => `<div><small>${k}</small><span>${v.trim()}</span></div>`).join('');
+  renderPicker();
+  const on = $('picker').querySelector('.on'); if (on) on.scrollIntoView({ block: 'nearest', inline: 'center', behavior: reduce ? 'auto' : 'smooth' });
+  // anatomy
+  $('aP').style.cssText = `background:${t.p};color:${t.pt}`; $('aS').style.cssText = `background:${t.s};color:${t.st}`;
+  $('aBase').style.cssText = `background:${t.base};color:${t.black}`; $('aBW').style.cssText = `background:${t.black};color:${t.white}`;
+  // presets
+  const P = [['Light', 'Dark'], ['Dark', 'Light'], ['Primary Light', 'Primary Dark'], ['Primary Dark', 'Primary Light'], ['Secondary Light', 'Dark'], ['Secondary', 'Dark']];
+  $('presets').innerHTML = P.map(([b, f]) => `<div class="preset" style="background:${surface(t, b)};color:${b === 'Secondary' ? t.st : ink(t, f)};--pp:${b.includes('Primary') ? t.s : t.p}"><small>BG ${b.toUpperCase()} · FG ${f.toUpperCase()}</small><b style="font-family:'${t.hfont.trim()}',sans-serif">${t.name}</b><div class="bar"><i></i><i></i><i></i></div></div>`).join('');
+  // font pair
+  $('fontpair').innerHTML = `<code>${t.name.toUpperCase()} · HEADING ${t.hfont.trim()} ${t.hw} · BODY ${t.font.trim()}</code><div class="big" style="font-family:'${t.hfont.trim()}',sans-serif;font-weight:${t.dw}">Small-batch coffee for slow mornings.</div><div class="small" style="font-family:'${t.font.trim()}',sans-serif">Body text set in ${t.font.trim()}, so headings and paragraphs feel like one voice.</div>`;
+  if (scroll) $('play').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+}
+
+/* ---------- generate 6: one theme from six different mood clusters ---------- */
+function generate() {
+  const byMood = {}; THEMES.forEach((t, i) => (byMood[t.mood] = byMood[t.mood] || []).push(i));
+  const ms = Object.keys(byMood).sort(() => Math.random() - .5).slice(0, 6);
+  const picks = ms.map((m) => byMood[m][Math.floor(Math.random() * byMood[m].length)]);
+  $('six').innerHTML = picks.map((i, k) => {
+    const t = THEMES[i]; loadFonts(t);
+    return `<button class="mini" style="--i:${k}" data-i="${i}">
+      <div class="m-site" style="background:${surface(t, t.bg)};color:${ink(t, t.fg)}">
+        <div class="m-bar"><i style="background:${t.p};border-radius:${RAD[t.radius]}"></i><b style="background:${t.s}"></b></div>
+        <h5 style="font-family:'${t.hfont.trim()}',sans-serif;font-weight:${t.dw}">Small-batch coffee for slow mornings.</h5>
+        <span class="m-cta" style="background:${t.p};color:${t.pt};border-radius:${RAD[t.radius]};box-shadow:${SH[t.shadow]}">Visit us</span>
+      </div>
+      <div class="m-name"><span>${t.name}</span><span>${t.mood.split(' & ')[0]}</span></div></button>`;
+  }).join('');
+}
+$('gen').onclick = generate;
+$('six').onclick = (e) => { const b = e.target.closest('.mini'); if (b) select(+b.dataset.i, true); };
+
+/* ---------- distributions ---------- */
+function dist(title, key, order) {
+  const c = {}; THEMES.forEach((t) => { const v = t[key].trim(); c[v] = (c[v] || 0) + 1; });
+  const max = Math.max(...Object.values(c));
+  return `<div class="dist reveal"><h3>${title}</h3>${order.map((o) => `<div class="row"><span>${o}</span><div class="track"><i style="--w:${(c[o] || 0) / max * 100}%"></i></div><span>${c[o] || 0}</span></div>`).join('')}</div>`;
+}
+$('bars').innerHTML = dist('Shadow', 'shadow', ['None', 'Mild', 'Bold']) + dist('Border', 'border', ['None', 'Thin', 'Thick']) + dist('Corner radius', 'radius', ['Sharp', 'Slight', 'Significant']);
+
+/* ---------- clusters ---------- */
+const mc = {}; THEMES.forEach((t) => mc[t.mood] = (mc[t.mood] || 0) + 1);
+$('clusters').innerHTML = Object.entries(mc).sort((a, b) => b[1] - a[1]).map(([m, n]) => `<span>${m}<b>${n}</b></span>`).join('');
+$('pairCount').textContent = new Set(THEMES.map((t) => t.font.trim() + '|' + t.hfont.trim())).size;
+
+/* ---------- gallery ---------- */
+$('gallery').innerHTML = THEMES.map((t, i) => `<button class="g" data-i="${i}"><div class="gs"><i style="background:${t.p};color:${t.pt}">Aa</i><i style="background:${t.s}"></i><i style="background:${t.base}"></i></div><div class="gn"><span>${t.name}</span><small>${t.mood}</small></div></button>`).join('');
+$('gallery').onclick = (e) => { const b = e.target.closest('.g'); if (b) select(+b.dataset.i, true); };
+
+/* ---------- reveal on scroll ---------- */
+const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
+document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+select(0); generate();
+</script>
+</body>
+</html>

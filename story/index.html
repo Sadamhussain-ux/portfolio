@@ -217,6 +217,11 @@ h2 em { font-style: normal; color: var(--lime); }
 .case .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
 .case .chips span { font-size: 11.5px; font-family: var(--mono); padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); }
 .case.soon { border-style: dashed; }
+.case-link { display: block; text-decoration: none; transition: border-color .2s, transform .2s; }
+.case-link:hover { border-color: var(--lime); transform: translateY(-2px); }
+.case-link h3 { font-size: 18px; }
+.mini-strip { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin: 10px 0 4px; }
+.mini-strip i { flex: 1; }
 .case.soon h3 { font-family: var(--mono); font-size: 16px; color: var(--cyan); }
 
 /* ---- 7: CONTACT ---- */
@@ -509,12 +514,13 @@ h2 em { font-style: normal; color: var(--lime); }
           <p>A self-service AI website builder: a business name and description in, six single-page websites out. 1000+ clients have published their websites. I owned UX research, high-fidelity design, the design system, HTML conversion and prototyping.</p>
           <div class="chips"><span>UX Research</span><span>Design System</span><span>HTML</span><span>Figma Make</span><span>Claude Code</span></div>
         </article>
-        <!-- Replace these two with real case studies when ready -->
-        <article class="case soon ix" style="--d:3">
-          <div class="tagline">CASE 02 · UX RESEARCH</div>
-          <h3>Coming soon</h3>
-          <p>Research case study in progress.</p>
-        </article>
+        <a class="case case-link ix" style="--d:3" href="case-themes.html">
+          <div class="tagline">CASE 02 · THEME SYSTEM</div>
+          <div class="mini-strip"><i style="background:#3A59D1"></i><i style="background:#FE6C89"></i><i style="background:#5B1F75"></i><i style="background:#FEE42F"></i><i style="background:#C6FF00"></i><i style="background:#543322"></i><i style="background:#4DA627"></i><i style="background:#F85405"></i><i style="background:#0A7EA4"></i><i style="background:#C9A84C"></i></div>
+          <h3>57 themes, never the same look</h3>
+          <p>The theme system behind Studio's six generated websites. Try it live →</p>
+        </a>
+        <!-- Replace this one with a real case study when ready -->
         <article class="case soon ix" style="--d:4">
           <div class="tagline">CASE 03 · PRODUCT DESIGN</div>
           <h3>Coming soon</h3>
@@ -618,7 +624,7 @@ const SCRIPT = [
     more: "Sadam shaped the whole journey: research, high-fidelity design, the design system, HTML and AI prototyping.", next: "Toolkit" },
   { fact: "DID YOU KNOW", say: ["Sadam speaks three languages: English, Tamil and Hindi.", "And a fourth one: prompts, for talking to AI."],
     more: "He uses role prompting, few-shot examples and chain-of-thought to keep AI output consistent.", next: "Work" },
-  { fact: "SNEAK PEEK", say: ["Here's the work.", "More case studies are on the way, so check back soon!"],
+  { fact: "NEW", say: ["Here's the work.", "Open Case 02 to play with 57 real Studio themes yourself!"],
     more: "Want the story behind a project? Ask Sadam. He loves walking through his process.", next: "Contact" },
   { fact: "THAT'S THE TOUR", say: ["Thanks for visiting!", "Sadam is open to new roles right now. Email is the fastest way to reach him."],
     more: "You can open the Menu anytime to revisit a page.", next: "Start again" },
