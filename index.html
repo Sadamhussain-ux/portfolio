@@ -366,9 +366,16 @@ footer a:hover { color: var(--text); }
 .statrow b { display: block; font-size: clamp(24px, 3vw, 32px); font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
 .statrow span { font-size: 13.5px; color: var(--muted); }
 
-/* phones: warm header while on the hero */
+/* phones: hero runs edge to edge and the header floats transparently on the orange */
 @media (max-width: 899px) {
-  body.on-stage header:not(.open) { background: rgba(42,14,4,.72); border-color: transparent; }
+  .hx { padding: 0 0 8px; }
+  .hx-frame { border-radius: 0 0 26px 26px; }
+  .hx-left { padding-top: 92px; }
+  body.on-stage header:not(.open) { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; border-color: transparent; }
+  body.on-stage header:not(.open) .logo { text-shadow: 0 1px 8px rgba(80,20,0,.3); }
+  body.on-stage header.scrolled:not(.open) { background: rgba(196,72,14,.94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 6px 20px rgba(80,20,0,.18); }
+  header.open { background: #FAFAF7 !important; }
+  .hx-stats div { flex: 1; width: auto; max-width: 170px; }
   body.on-stage header:not(.open) .logo { color: #fff; }
   body.on-stage header:not(.open) .logo span { color: #FFD7A8; }
   body.on-stage header:not(.open) .menu-btn { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.25); }
