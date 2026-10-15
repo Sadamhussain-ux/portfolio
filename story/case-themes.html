@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#05080a">
+<meta name="theme-color" content="#FAFAF7">
 <title>Theme System · Case Study · Sadam Hussain</title>
 <meta name="description" content="Case study: designing a 57-theme system so every AI-generated website in Open Weaver Studio looks different.">
 <meta property="og:title" content="57 themes, six websites, never the same look twice">
@@ -11,12 +11,12 @@
 <meta property="og:image" content="assets/case02/editor.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #05080a; --panel: #0c1418; --panel-2: #111b20; --line: rgba(120,220,255,.16);
-  --text: #eaf6f8; --muted: #8aa3aa; --cyan: #4be3ff; --lime: #d4f55b;
-  --display: 'Space Grotesk', system-ui, sans-serif; --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --bg: #FAFAF7; --panel: #FFFFFF; --panel-2: #F1F2EC; --line: #E6E6E0;
+  --text: #16171A; --muted: #5E6168; --cyan: #3A59D1; --lime: #3A59D1;
+  --display: 'Plus Jakarta Sans', system-ui, sans-serif; --mono: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -28,7 +28,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 @media (min-width: 760px) { .wrap { padding: 0 32px; } }
 
 /* top bar */
-.top { position: sticky; top: 0; z-index: 20; background: rgba(5,8,10,.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.top { position: sticky; top: 0; z-index: 20; background: rgba(250,250,247,.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
 .top .wrap { display: flex; align-items: center; justify-content: space-between; height: 58px; }
 .back { font-family: var(--mono); font-size: 12.5px; color: var(--muted); text-decoration: none; display: flex; gap: 8px; align-items: center; }
 .back:hover { color: var(--text); }
@@ -36,6 +36,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 /* sections */
 section { padding: 64px 0; border-bottom: 1px solid var(--line); }
+.anat .card, .dist, .fontpair, .out div, .panel, .pick, .stat, .meta div { box-shadow: 0 1px 2px rgba(20,20,30,.04), 0 6px 18px rgba(20,20,30,.05); }
+.kicker { text-transform: uppercase; font-weight: 600; letter-spacing: .08em; }
 @media (min-width: 760px) { section { padding: 96px 0; } }
 .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--cyan); display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
 .kicker::before { content: ''; width: 22px; height: 1px; background: var(--cyan); }
@@ -70,7 +72,7 @@ p strong { color: var(--text); font-weight: 500; }
 .filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
 .filters::-webkit-scrollbar { display: none; }
 .filters button { flex: none; font-family: var(--mono); font-size: 11.5px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
-.filters button.on { background: var(--lime); color: #111; border-color: var(--lime); }
+.filters button.on { background: var(--lime); color: #fff; border-color: var(--lime); }
 .picker { display: flex; gap: 8px; overflow-x: auto; padding: 8px 2px 12px; scroll-snap-type: x mandatory; scrollbar-width: thin; }
 .pick { flex: none; scroll-snap-align: start; width: 128px; text-align: left; padding: 10px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel); transition: border-color .2s, transform .2s; }
 .pick:hover { transform: translateY(-2px); }
@@ -82,8 +84,8 @@ p strong { color: var(--text); font-weight: 500; }
 
 /* the sample website (themed by CSS variables) */
 .browser { border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: var(--panel); }
-.browser .chrome { display: flex; align-items: center; gap: 6px; padding: 9px 12px; background: #0a1114; }
-.browser .chrome i { width: 9px; height: 9px; border-radius: 50%; background: #26363c; }
+.browser .chrome { display: flex; align-items: center; gap: 6px; padding: 9px 12px; background: #F1F2EC; border-bottom: 1px solid var(--line); }
+.browser .chrome i { width: 9px; height: 9px; border-radius: 50%; background: #D6D6CF; }
 .browser .chrome span { margin-left: 10px; font-family: var(--mono); font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .site {
   --p: #3A59D1; --pt: #fff; --s: #F2C230; --st: #000; --base: #f4f4f4; --black: #111; --white: #fafafa;
@@ -126,14 +128,14 @@ p strong { color: var(--text); font-weight: 500; }
 .panel h3 small { font-family: var(--mono); font-size: 10.5px; color: var(--muted); font-weight: 400; }
 .tokens { display: grid; gap: 6px; margin-top: 12px; }
 .tok { display: grid; grid-template-columns: 38px 1fr auto; gap: 10px; align-items: center; font-size: 13px; }
-.tok i { height: 26px; border-radius: 7px; border: 1px solid rgba(255,255,255,.12); display: grid; place-items: center; font-style: normal; font-size: 12px; font-weight: 700; }
+.tok i { height: 26px; border-radius: 7px; border: 1px solid rgba(0,0,0,.08); display: grid; place-items: center; font-style: normal; font-size: 12px; font-weight: 700; }
 .tok code { font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
 .tok .shared { font-family: var(--mono); font-size: 9.5px; color: var(--lime); border: 1px solid rgba(212,245,91,.4); border-radius: 4px; padding: 0 4px; margin-left: 6px; }
 .props { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 14px; }
 .props div { background: var(--panel-2); border-radius: 9px; padding: 8px 10px; }
 .props small { display: block; font-family: var(--mono); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
 .props span { font-size: 13px; }
-.gen-btn { width: 100%; margin-top: 14px; padding: 13px; border-radius: 12px; background: var(--lime); color: #111; font-weight: 700; font-size: 15px; display: flex; justify-content: center; gap: 8px; align-items: center; }
+.gen-btn { width: 100%; margin-top: 14px; padding: 13px; border-radius: 12px; background: var(--text); color: #fff; font-weight: 700; font-size: 15px; display: flex; justify-content: center; gap: 8px; align-items: center; }
 .gen-btn:active { transform: scale(.98); }
 
 /* six generated sites */
@@ -190,7 +192,7 @@ p strong { color: var(--text); font-weight: 500; }
 /* clusters */
 .clusters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
 .clusters span { padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); font-size: 14px; display: flex; gap: 8px; align-items: center; }
-.clusters span b { font-family: var(--mono); font-size: 11px; color: #111; background: var(--lime); border-radius: 999px; padding: 1px 7px; }
+.clusters span b { font-family: var(--mono); font-size: 11px; color: #fff; background: var(--lime); border-radius: 999px; padding: 1px 7px; }
 
 /* screenshots */
 .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 26px; }
@@ -228,7 +230,7 @@ ul.list li strong { color: var(--text); font-weight: 500; }
 .end h2 { margin-bottom: 22px; }
 .end .btns { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
 .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 22px; border-radius: 999px; border: 1px solid var(--line); text-decoration: none; font-weight: 600; font-size: 15px; }
-.btn.primary { background: var(--lime); color: #111; border-color: var(--lime); }
+.btn.primary { background: var(--text); color: #fff; border-color: var(--text); }
 
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
 .reveal.in { opacity: 1; transform: none; }
@@ -238,7 +240,7 @@ ul.list li strong { color: var(--text); font-weight: 500; }
 <body>
 
 <header class="top"><div class="wrap">
-  <a class="back" href="./">← Back to portfolio</a>
+  <a class="back" href="../">← Back to portfolio</a>
   <span class="tag">CASE 02</span>
 </div></header>
 
@@ -466,7 +468,7 @@ ul.list li strong { color: var(--text); font-weight: 500; }
       <div class="btns">
         <a class="btn primary" href="mailto:aaqilsadam@gmail.com">Email me ↗</a>
         <a class="btn" href="https://www.linkedin.com/in/sadam-hussain-3a6233a7/" target="_blank" rel="noopener">LinkedIn ↗</a>
-        <a class="btn" href="./">Back to portfolio</a>
+        <a class="btn" href="../">Back to portfolio</a>
       </div>
     </div>
   </div>
