@@ -100,7 +100,7 @@ header.scrolled { border-color: var(--line); }
 .hero .intro strong { color: var(--text); font-weight: 600; }
 .ctas { display: flex; flex-wrap: wrap; gap: 10px; }
 .portrait { position: relative; max-width: 360px; width: 64%; justify-self: center; }
-.portrait img { border-radius: 28px; aspect-ratio: 4/5; object-fit: cover; width: 100%; box-shadow: var(--shadow-lg); }
+.portrait img { border-radius: 28px; aspect-ratio: 4/5; object-fit: cover; width: 100%; height: auto; box-shadow: var(--shadow-lg); }
 .portrait .chip { position: absolute; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px 14px; box-shadow: var(--shadow); font-size: 13px; line-height: 1.3; }
 .portrait .chip b { display: block; font-size: 20px; color: var(--accent); }
 .portrait .c1 { left: -18px; bottom: 28px; }
@@ -202,6 +202,52 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
 footer a { text-decoration: none; }
 footer a:hover { color: var(--text); }
 
+/* ================= PREVIOUSLY AT ================= */
+.prev { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin-top: 26px; font-size: 14px; color: var(--muted); }
+.prev b { font-weight: 700; color: #3b3d42; letter-spacing: -.01em; font-size: 15px; }
+
+/* ================= BENTO HIGHLIGHTS ================= */
+.bento { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 48px; }
+@media (min-width: 900px) { .bento { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 168px; margin-top: 64px; } }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; overflow: hidden; position: relative; transition: transform .3s var(--ease), box-shadow .3s var(--ease); }
+.tile:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.tile small { font-size: 13px; color: var(--muted); font-weight: 500; }
+.tile b.big { font-size: clamp(30px, 4.4vw, 44px); font-weight: 800; letter-spacing: -.035em; line-height: 1; }
+.tile.wide { grid-column: span 2; }
+@media (min-width: 900px) { .tile.tall { grid-row: span 2; } }
+.tile.dark { background: var(--text); color: #fff; border-color: var(--text); }
+.tile.dark small { color: #a9acb4; }
+.tile.blue { background: var(--accent); color: #fff; border-color: var(--accent); }
+.tile.blue small { color: #d6defa; }
+.sw-row { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; }
+.sw-row i { aspect-ratio: 1; border-radius: 5px; }
+.tool-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.tool-row span { font-size: 12.5px; font-weight: 600; padding: 5px 10px; border-radius: 999px; background: rgba(255,255,255,.12); }
+.clock { font-size: clamp(22px, 3.4vw, 34px); font-weight: 800; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+.tile .avail { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--ok); }
+
+/* ================= CASE QUICK FACTS ================= */
+.quick { display: grid; gap: 8px; margin: 4px 0 2px; padding: 12px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 14px; }
+.quick div { display: grid; grid-template-columns: 74px 1fr; gap: 10px; font-size: 14.5px; line-height: 1.5; }
+.quick dt { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 2px; }
+.quick dd { color: #2b2d31; }
+
+/* ================= AI WORKFLOW ================= */
+.ai { display: grid; gap: 14px; }
+@media (min-width: 900px) { .ai { grid-template-columns: repeat(3, 1fr); } }
+.ai-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; }
+.ai-card .tool { display: inline-block; font-size: 12.5px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); margin-bottom: 12px; }
+.ai-card h3 { font-size: 18px; margin-bottom: 6px; }
+.ai-card p { font-size: 15px; color: var(--muted); }
+.ai-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 22px; font-size: 14px; font-weight: 600; }
+.ai-flow span { padding: 8px 14px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); }
+.ai-flow i { color: var(--muted); font-style: normal; }
+
+/* ================= COPY EMAIL + TOAST ================= */
+.copy { cursor: pointer; }
+.toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); background: var(--text); color: #fff; padding: 11px 18px; border-radius: 999px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s var(--ease); z-index: 50; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
 /* ================= SUBTLE MOTION ================= */
 .fade { opacity: 0; transform: translateY(16px); transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: calc(var(--d, 0) * 80ms); }
 .fade.in { opacity: 1; transform: none; }
@@ -220,6 +266,7 @@ footer a:hover { color: var(--text); }
     <a href="#" class="logo">Sadam<span>.</span></a>
     <ul class="links">
       <li><a href="#work">Work</a></li>
+      <li><a href="#ai">AI</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -230,7 +277,7 @@ footer a:hover { color: var(--text); }
     </div>
   </div>
   <nav class="mobile-menu" aria-label="Mobile"><div>
-    <a href="#work">Work</a><a href="#about">About</a><a href="#experience">Experience</a><a href="#contact">Contact</a>
+    <a href="#work">Work</a><a href="#ai">How I use AI</a><a href="#about">About</a><a href="#experience">Experience</a><a href="#contact">Contact</a>
     <a href="resume/Sadam_Hussain_Resume_UX_Designer.pdf" target="_blank" rel="noopener">Resume ↗</a>
   </div></nav>
 </header>
@@ -248,19 +295,19 @@ footer a:hover { color: var(--text); }
             <a class="btn primary" href="#work">See my work <span class="arr">→</span></a>
             <a class="btn" href="resume/Sadam_Hussain_Resume_UX_Designer.pdf" target="_blank" rel="noopener">Download resume</a>
           </div>
+          <div class="prev fade" style="--d:4"><span>Previously at</span><b>Open Weaver</b><b>CEM Business Solutions</b><b>Xerago</b></div>
         </div>
         <div class="portrait fade" style="--d:2">
           <img src="assets/sadam.jpg" alt="Sadam Hussain" width="800" height="1000">
-          <div class="chip c2"><b>9+</b>years in design</div>
-          <div class="chip c1"><b>1000+</b>clients on Studio</div>
         </div>
       </div>
-      <div class="facts fade" style="--d:4">
-        <div><b>9+</b><span>years of experience</span></div>
-        <div><b>1000+</b><span>clients published with Studio</span></div>
-        <div><b>57</b><span>themes in the Studio system</span></div>
-        <div><b>28</b><span>people in the UI team I led</span></div>
-      </div>
+      <div class="bento">
+        <div class="tile blue wide fade"><small>Open Weaver Studio</small><div><b class="big">1000+</b><div style="font-weight:600;margin-top:4px">clients published their websites with the AI builder I designed</div></div></div>
+        <div class="tile fade" style="--d:1"><small>Years in design</small><b class="big">9+</b></div>
+        <div class="tile fade" style="--d:2"><small>Chennai, India</small><div><div class="clock" id="clock">--:--</div><div class="avail" style="margin-top:6px"><span class="dot"></span>Open to work</div></div></div>
+        <div class="tile wide fade" style="--d:1"><small>Theme system · 57 themes</small><div class="sw-row"><i style="background:#3A59D1"></i><i style="background:#FE6C89"></i><i style="background:#5B1F75"></i><i style="background:#FEE42F"></i><i style="background:#C6FF00"></i><i style="background:#543322"></i><i style="background:#4DA627"></i><i style="background:#F85405"></i><i style="background:#0A7EA4"></i><i style="background:#C9A84C"></i></div></div>
+        <div class="tile dark wide fade" style="--d:2"><small>AI-native workflow</small><div class="tool-row"><span>Figma Make</span><span>Claude Code</span><span>Figma MCP</span><span>Prompt engineering</span></div></div>
+</div>
     </div>
   </section>
 
@@ -280,9 +327,14 @@ footer a:hover { color: var(--text); }
           <div class="case-body">
             <div class="meta">Case 01 · Open Weaver · AI product</div>
             <h3>Open Weaver Studio</h3>
-            <p>A self-service AI website builder: enter a business name and description, and get six single-page websites to choose from. I owned UX research, high-fidelity design, the design system, HTML conversion and prototyping.</p>
+            <dl class="quick">
+              <div><dt>Problem</dt><dd>Let small businesses create a website without design or code skills.</dd></div>
+              <div><dt>My role</dt><dd>UX research, high-fidelity design, design system, HTML conversion, prototyping.</dd></div>
+              <div><dt>Impact</dt><dd>1,000+ clients have published their websites.</dd></div>
+            </dl>
+            <p>Enter a business name and description, and Studio generates six single-page websites to choose from.</p>
             <div class="tags"><span>UX Research</span><span>Product Design</span><span>Design System</span><span>Figma Make</span><span>Claude Code</span></div>
-            <div class="more soon">Full case study coming soon</div>
+            <a class="more" href="mailto:aaqilsadam@gmail.com?subject=Studio%20walkthrough" style="text-decoration:none;color:var(--accent)">Walkthrough available on request <span class="arr">→</span></a>
           </div>
         </article>
         <a class="case fade" style="--d:1" href="story/case-themes.html">
@@ -294,12 +346,32 @@ footer a:hover { color: var(--text); }
           <div class="case-body">
             <div class="meta">Case 02 · Open Weaver · Design system</div>
             <h3>57 themes, never the same look twice</h3>
-            <p>The theme system that gives every AI-generated website its own personality: colour and text pairs, light and dark surfaces, font pairings and widget styles, plus custom themes.</p>
+            <dl class="quick">
+              <div><dt>Problem</dt><dd>Six websites generated from one brief all looked alike.</dd></div>
+              <div><dt>My role</dt><dd>Colour mapping, surface presets, the 57-theme set, custom theme flow.</dd></div>
+              <div><dt>Result</dt><dd>Every generated website gets its own look; users can still customise it.</dd></div>
+            </dl>
             <div class="tags"><span>Design Tokens</span><span>Colour Systems</span><span>Theming</span></div>
             <div class="more">Read the case study, with a live demo <span class="arr">→</span></div>
           </div>
         </a>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ AI WORKFLOW ============ -->
+  <section class="block" id="ai" style="padding-top:24px">
+    <div class="wrap">
+      <div class="head fade">
+        <div><div class="label">How I work with AI</div><h2>AI speeds me up. Judgement stays mine.</h2></div>
+        <p>I use AI tools in real product work, not as a gimmick. Here's where each one fits.</p>
+      </div>
+      <div class="ai">
+        <div class="ai-card fade"><span class="tool">Figma Make</span><h3>Explore faster</h3><p>Turn early ideas into clickable prototypes quickly, so I can test several directions before committing to one.</p></div>
+        <div class="ai-card fade" style="--d:1"><span class="tool">Claude Code</span><h3>Design to working UI</h3><p>At Open Weaver I directed Claude Code to build production UI from design tokens, then reviewed and polished the HTML/CSS myself.</p></div>
+        <div class="ai-card fade" style="--d:2"><span class="tool">Prompt engineering</span><h3>Consistent output</h3><p>Role prompting, few-shot examples and step-by-step reasoning keep AI output on-brand and consistent.</p></div>
+      </div>
+      <div class="ai-flow fade"><span>Research</span><i>→</i><span>Figma explore</span><i>→</i><span>Figma Make prototype</span><i>→</i><span>Claude Code build</span><i>→</i><span>Review &amp; ship</span></div>
     </div>
   </section>
 
@@ -363,7 +435,8 @@ footer a:hover { color: var(--text); }
         <h2>Let's work together.</h2>
         <p>I'm open to Product Designer, UX Designer and Design Systems roles, in Chennai or remote. I can join immediately.</p>
         <div class="ctas">
-          <a class="btn primary" href="mailto:aaqilsadam@gmail.com">aaqilsadam@gmail.com</a>
+          <a class="btn primary" href="mailto:aaqilsadam@gmail.com">Email me</a>
+          <button class="btn copy" id="copyEmail" type="button">Copy email</button>
           <a class="btn" href="tel:+919942464202">+91 99424 64202</a>
           <a class="btn" href="https://www.linkedin.com/in/sadam-hussain-3a6233a7/" target="_blank" rel="noopener">LinkedIn ↗</a>
         </div>
@@ -375,13 +448,26 @@ footer a:hover { color: var(--text); }
 <footer>
   <div class="wrap">
     <span>© <span id="year">2026</span> Sadam Hussain B</span>
-    <span><a href="story/">Interactive version ↗</a> · <a href="#top">Back to top ↑</a></span>
+    <span><a href="story/interactive.html">Interactive version ↗</a> · <a href="#top">Back to top ↑</a></span>
   </div>
 </footer>
+<div class="toast" id="toast" role="status">Email copied: aaqilsadam@gmail.com</div>
 
 <script>
 document.body.classList.remove('no-js');
 document.getElementById('year').textContent = new Date().getFullYear();
+
+/* live Chennai time */
+const clock = document.getElementById('clock');
+const tick = () => { clock.textContent = new Intl.DateTimeFormat('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Asia/Kolkata' }).format(new Date()).toUpperCase() + ' IST'; };
+tick(); setInterval(tick, 30000);
+
+/* copy email */
+const toast = document.getElementById('toast');
+document.getElementById('copyEmail').onclick = async () => {
+  try { await navigator.clipboard.writeText('aaqilsadam@gmail.com'); } catch (e) { location.href = 'mailto:aaqilsadam@gmail.com'; return; }
+  toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2200);
+};
 
 /* header border once scrolled */
 const header = document.querySelector('header');
@@ -402,7 +488,7 @@ const navLinks = [...document.querySelectorAll('.links a')];
 const spy = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) navLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id));
 }), { rootMargin: '-45% 0px -50% 0px' });
-['work', 'about', 'experience', 'contact'].forEach(id => spy.observe(document.getElementById(id)));
+['work', 'ai', 'about', 'experience', 'contact'].forEach(id => spy.observe(document.getElementById(id)));
 </script>
 </body>
 </html>
