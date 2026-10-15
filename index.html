@@ -592,7 +592,7 @@ a.case:hover .t-img { transform: scale(1.04); object-position: 70% 0; }
       <div class="work">
         <article class="case fade">
           <div class="thumb"><div class="t-studio t-shotwrap">
-            <button class="t-browser" type="button" id="openShot" aria-label="View the full Open Weaver landing page">
+            <button class="t-browser" type="button" id="openShot" data-shot="assets/case01/openweaver-landing.webp" data-title="Open Weaver Studio · landing page" aria-label="View the full Open Weaver landing page">
               <span class="t-chrome"><i></i><i></i><i></i><em>openweaver.com</em></span>
               <span class="t-shot" role="img" aria-label="Open Weaver landing page screenshot"></span>
             </button>
@@ -608,16 +608,17 @@ a.case:hover .t-img { transform: scale(1.04); object-position: 70% 0; }
             </dl>
             <p>Enter a business name and description, and Studio generates six single-page websites to choose from.</p>
             <div class="tags"><span>UX Research</span><span>Product Design</span><span>Design System</span><span>Figma Make</span><span>Claude Code</span></div>
-            <div class="more-row"><button class="more more-btn" type="button" id="openShot2">View the full landing page <span class="arr">→</span></button><a class="more" href="mailto:aaqilsadam@gmail.com?subject=Studio%20walkthrough" style="text-decoration:none;color:var(--muted);font-weight:500">Walkthrough on request</a></div>
+            <div class="more-row"><button class="more more-btn" type="button" id="openShot2" data-shot="assets/case01/openweaver-landing.webp" data-title="Open Weaver Studio · landing page">View the full landing page <span class="arr">→</span></button><a class="more" href="mailto:aaqilsadam@gmail.com?subject=Studio%20walkthrough" style="text-decoration:none;color:var(--muted);font-weight:500">Walkthrough on request</a></div>
           </div>
         </article>
         <a class="case fade" style="--d:1" href="story/case-themes.html">
           <div class="thumb"><div class="t-studio t-shotwrap t-dark">
-            <span class="t-browser t-static">
-              <span class="t-chrome"><i></i><i></i><i></i><em>studio · App Theme</em></span>
-              <img class="t-img" src="assets/case02-editor-themes.webp" alt="Studio editor with the App Theme panel listing Studio themes" width="1629" height="824" loading="lazy">
-            </span>
-            <span class="t-swatch" aria-hidden="true"><i style="background:#3A59D1"></i><i style="background:#FE6C89"></i><i style="background:#5B1F75"></i><i style="background:#FEE42F"></i><i style="background:#C6FF00"></i><i style="background:#543322"></i><i style="background:#4DA627"></i><i style="background:#F85405"></i></span>
+            <button class="t-browser" type="button" data-shot="assets/case02-site-full.webp" data-title="Generated website · Frost Blue theme applied" aria-label="View the full themed website">
+              <span class="t-chrome"><i></i><i></i><i></i><em>preview · Frost Blue theme</em></span>
+              <span class="t-shot" style="background-image:url('assets/case02-site-sm.webp')" role="img" aria-label="Generated website with the Frost Blue theme applied"></span>
+            </button>
+            <span class="t-hint"><span class="hv">Hover to scroll · click</span><span class="tp">Tap</span> to view full page</span>
+            <span class="t-swatch" aria-hidden="true" style="bottom:auto;top:10px;left:auto;right:12px"><i style="background:#3A59D1"></i><i style="background:#FE6C89"></i><i style="background:#5B1F75"></i><i style="background:#FEE42F"></i><i style="background:#C6FF00"></i><i style="background:#543322"></i><i style="background:#4DA627"></i><i style="background:#F85405"></i></span>
           </div></div>
           <div class="case-body">
             <div class="meta">Case 02 · Open Weaver · Design system</div>
@@ -728,8 +729,8 @@ a.case:hover .t-img { transform: scale(1.04); object-position: 70% 0; }
   </div>
 </footer>
 <dialog class="shotbox" id="shotbox" aria-label="Open Weaver landing page">
-  <div class="shotbox-bar"><span>Open Weaver Studio · landing page</span><button type="button" id="closeShot" aria-label="Close">✕</button></div>
-  <div class="shotbox-scroll"><img src="assets/case01/openweaver-landing.webp" alt="Full Open Weaver landing page" width="1116" height="8000" loading="lazy"></div>
+  <div class="shotbox-bar"><span id="shotTitle">Open Weaver Studio · landing page</span><button type="button" id="closeShot" aria-label="Close">✕</button></div>
+  <div class="shotbox-scroll" id="shotScroll"><img id="shotImg" src="assets/case01/openweaver-landing.webp" alt="" loading="lazy"></div>
 </dialog>
 <div class="toast" id="toast" role="status">Email copied: aaqilsadam@gmail.com</div>
 
@@ -755,9 +756,12 @@ new IntersectionObserver(([e]) => document.body.classList.toggle('on-stage', e.i
 
 /* Case 01 full-page screenshot viewer */
 const shotbox = document.getElementById('shotbox');
-const openShot = () => { if (shotbox.showModal) shotbox.showModal(); else window.open('assets/case01/openweaver-landing.webp'); };
-document.getElementById('openShot').onclick = openShot;
-document.getElementById('openShot2').onclick = openShot;
+const openShot = (src, title) => {
+  document.getElementById('shotImg').src = src; document.getElementById('shotImg').alt = title;
+  document.getElementById('shotTitle').textContent = title; document.getElementById('shotScroll').scrollTop = 0;
+  if (shotbox.showModal) shotbox.showModal(); else window.open(src);
+};
+document.querySelectorAll('[data-shot]').forEach(b => b.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openShot(b.dataset.shot, b.dataset.title); }));
 document.getElementById('closeShot').onclick = () => shotbox.close();
 shotbox.addEventListener('click', (e) => { if (e.target === shotbox) shotbox.close(); });
 

@@ -41,6 +41,11 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .subnav a:hover { color: var(--text); }
 .subnav a.on { background: var(--accent-soft, #FDEBDD); color: var(--cyan); }
 html { scroll-padding-top: 110px; }
+.pair-shots { display: grid; gap: 14px; margin-top: 18px; align-items: start; }
+@media (min-width: 900px) { .pair-shots { grid-template-columns: 1.6fr 1fr; } }
+.pair-shots img { height: auto; }
+.tall-scroll { height: 420px; overflow-y: auto; overscroll-behavior: contain; }
+@media (min-width: 900px) { .tall-scroll { height: 360px; } }
 /* sections */
 section { padding: 64px 0; border-bottom: 1px solid var(--line); }
 .anat .card, .dist, .fontpair, .out div, .panel, .pick, .stat, .meta div { box-shadow: 0 1px 2px rgba(20,20,30,.04), 0 6px 18px rgba(20,20,30,.05); }
@@ -421,7 +426,11 @@ ul.list li strong { color: var(--text); font-weight: 500; }
           <figure><div class="shot"><img src="assets/case02/custom-theme.png" alt="My Custom Theme panel with text, colour, preset and widget style settings" loading="lazy"></div><figcaption>Custom theme editor</figcaption></figure>
         </div>
       </div>
-      <figure class="wide reveal"><div class="shot"><img src="assets/case02/editor-themes.webp" alt="Studio editor with the App Theme panel open, showing My Custom Theme and the Studio theme list" loading="lazy" width="1629" height="824"></div><figcaption>Picking a theme from the App Theme panel inside the Studio editor</figcaption></figure>
+      <div class="pair-shots reveal">
+        <figure><div class="shot"><img src="assets/case02/editor-themes.webp" alt="Studio editor with the App Theme panel open" loading="lazy" width="1629" height="824"></div><figcaption>1 · Pick a theme in the App Theme panel</figcaption></figure>
+        <figure><div class="shot tall-scroll" tabindex="0" aria-label="Scrollable preview of the generated website"><img src="assets/case02/site-full.webp" alt="Full generated website with the Frost Blue theme applied" loading="lazy" width="1242" height="8000"></div><figcaption>2 · The whole website takes the theme. Scroll inside to see every section.</figcaption></figure>
+      </div>
+      <figure class="wide reveal" style="display:none"><div class="shot"><img src="assets/case02/editor-themes.webp" alt="Studio editor with the App Theme panel open, showing My Custom Theme and the Studio theme list" loading="lazy" width="1629" height="824"></div><figcaption>Picking a theme from the App Theme panel inside the Studio editor</figcaption></figure>
       <figure class="wide reveal"><div class="shot"><img src="assets/case02/editor.png" alt="Studio editor showing a generated website using the custom theme" loading="lazy"></div><figcaption>The theme applied live in the Studio editor</figcaption></figure>
     </div>
   </section>
