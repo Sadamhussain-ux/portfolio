@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#FAFAF7">
+<meta name="theme-color" content="#EEF1FB">
 <title>Sadam Hussain · Senior UX Designer</title>
 <meta name="description" content="Sadam Hussain B, Senior UX Designer in Chennai. UX research, product design, design systems and front-end. Designed Open Weaver Studio, an AI website builder used by 1,000+ clients.">
 <meta property="og:title" content="Sadam Hussain · Senior UX Designer">
@@ -248,6 +248,52 @@ footer a:hover { color: var(--text); }
 .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); background: var(--text); color: #fff; padding: 11px 18px; border-radius: 999px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s var(--ease); z-index: 50; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
+/* ================= COLOUR RHYTHM ================= */
+/* 1. tinted opening: soft blue fading into warm, then into the page */
+body { background:
+  radial-gradient(900px 520px at 85% -5%, rgba(58,89,209,.16), transparent 70%),
+  radial-gradient(700px 480px at 5% 10%, rgba(240,200,140,.20), transparent 70%),
+  linear-gradient(180deg, #EEF1FB 0, #F6F3EC 760px, var(--bg) 1250px) no-repeat, var(--bg); }
+header { background: rgba(244,244,250,.6); }
+header.scrolled { background: rgba(250,250,247,.88); }
+
+/* 2. dark band for the AI section */
+#ai { background: #121317; color: #fff; padding-top: 72px; }
+@media (min-width: 860px) { #ai { padding-top: 104px; } }
+#ai .label { color: #9FB2FF; }
+#ai .head p, #ai .ai-card p { color: #A9ACB4; }
+#ai .ai-card { background: #1B1C21; border-color: #2A2B31; }
+#ai .ai-card:hover { border-color: #3d4b8a; }
+#ai .ai-card { transition: border-color .25s, transform .3s var(--ease); }
+#ai .ai-card:hover { transform: translateY(-3px); }
+#ai .ai-card .tool { background: rgba(58,89,209,.22); color: #B9C6FF; }
+#ai .ai-flow span { background: #1B1C21; border-color: #2A2B31; }
+#ai .ai-flow span:last-child { background: var(--accent); border-color: var(--accent); }
+#ai .ai-flow i { color: #6B6E76; }
+
+/* 3. warm sand for About */
+#about { background: #F3EDE3 !important; border: 0 !important; }
+#about .label { color: #9A5B2E; }
+#about .step { background: #FBF8F2; border-color: #E6DCCB; }
+#about .step > span { background: #EADFCC; color: #7A4A22; }
+
+/* white skills band, off-white experience: gentle alternation */
+#skills { background: var(--surface); border-bottom: 1px solid var(--line); }
+#skills .skill { background: var(--bg); }
+
+/* 4. richer case thumbnails */
+.t-studio { background: linear-gradient(135deg, #3A59D1 0%, #6C4FD8 55%, #B55BC4 100%) !important; }
+.t-studio .t-form { box-shadow: 0 10px 30px rgba(10,10,40,.25); }
+.t-studio .t-sites i { box-shadow: 0 8px 20px rgba(10,10,40,.22); }
+.t-themes { background: #16171A !important; }
+
+/* 5. dark ending: contact + footer */
+#contact { background: var(--text); padding: 72px 0 24px !important; }
+@media (min-width: 860px) { #contact { padding: 104px 0 32px !important; } }
+#contact .contact { background: transparent; padding: 0; border-radius: 0; }
+footer { background: var(--text); color: #8E9199; border-top: 1px solid #2A2B31; }
+footer a:hover { color: #fff; }
+
 /* ================= SUBTLE MOTION ================= */
 .fade { opacity: 0; transform: translateY(16px); transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: calc(var(--d, 0) * 80ms); }
 .fade.in { opacity: 1; transform: none; }
@@ -360,7 +406,7 @@ footer a:hover { color: var(--text); }
   </section>
 
   <!-- ============ AI WORKFLOW ============ -->
-  <section class="block" id="ai" style="padding-top:24px">
+  <section class="block" id="ai">
     <div class="wrap">
       <div class="head fade">
         <div><div class="label">How I work with AI</div><h2>AI speeds me up. Judgement stays mine.</h2></div>
@@ -395,7 +441,7 @@ footer a:hover { color: var(--text); }
   </section>
 
   <!-- ============ SKILLS ============ -->
-  <section class="block">
+  <section class="block" id="skills">
     <div class="wrap">
       <div class="head fade"><div><div class="label">What I do</div><h2>Skills</h2></div></div>
       <div class="skills">
@@ -411,7 +457,7 @@ footer a:hover { color: var(--text); }
   </section>
 
   <!-- ============ EXPERIENCE ============ -->
-  <section class="block" id="experience" style="padding-top:24px">
+  <section class="block" id="experience">
     <div class="wrap">
       <div class="head fade"><div><div class="label">Experience</div><h2>Where I've worked</h2></div>
         <a class="btn" href="resume/Sadam_Hussain_Resume_UX_Designer.pdf" target="_blank" rel="noopener">Full resume <span class="arr">→</span></a></div>
