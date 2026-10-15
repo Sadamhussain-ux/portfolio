@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0B0C10">
+<meta name="theme-color" content="#2A0E04">
 <title>Sadam Hussain · Senior UX Designer</title>
 <meta name="description" content="Sadam Hussain B, Senior UX Designer in Chennai. UX research, product design, design systems and front-end. Designed Open Weaver Studio, an AI website builder used by 1,000+ clients.">
 <meta property="og:title" content="Sadam Hussain · Senior UX Designer">
@@ -21,8 +21,8 @@
   --line: #E6E6E0;
   --text: #16171A;
   --muted: #5E6168;
-  --accent: #3A59D1;          /* Frost Blue, from the Studio theme set */
-  --accent-soft: #E9EDFB;
+  --accent: #C2410C;          /* warm orange, matches the hero */
+  --accent-soft: #FDEBDD;
   --ok: #2E9E62;
   --radius: 18px;
   --shadow: 0 1px 2px rgba(20,20,30,.04), 0 8px 24px rgba(20,20,30,.06);
@@ -169,7 +169,7 @@ a.case:hover .t-themes i:nth-child(3n) { transform: translateY(-4px); }
 @media (min-width: 640px) { .skills { grid-template-columns: 1fr 1fr; } }
 @media (min-width: 1000px) { .skills { grid-template-columns: repeat(4, 1fr); } }
 .skill { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; transition: border-color .25s, transform .3s var(--ease); }
-.skill:hover { border-color: #cfd4ea; transform: translateY(-3px); }
+.skill:hover { border-color: #F2C9AE; transform: translateY(-3px); }
 .skill .ic { width: 44px; height: 44px; border-radius: 12px; background: var(--accent-soft); display: grid; place-items: center; margin-bottom: 16px; }
 .skill .ic svg { width: 22px; height: 22px; stroke: var(--accent); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .skill h3 { font-size: 18px; margin-bottom: 6px; }
@@ -248,7 +248,81 @@ footer a:hover { color: var(--text); }
 .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); background: var(--text); color: #fff; padding: 11px 18px; border-radius: 999px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s var(--ease); z-index: 50; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-/* ================= HERO STAGE (dark, bold) ================= */
+/* ================= HERO: SPLIT (warm orange + white panel) ================= */
+.split { padding: 12px 12px 8px; margin-top: -66px; }
+@media (min-width: 900px) { .split { padding: 16px 16px 8px; } }
+.split-frame { position: relative; border-radius: 26px; overflow: hidden; background: #2A0E04; display: grid; }
+@media (min-width: 900px) { .split-frame { height: min(calc(100svh - 120px), 760px); min-height: 600px; display: block; } }
+.split-left { position: relative; background:
+  radial-gradient(70% 90% at 48% 60%, #F7952E 0%, rgba(247,149,46,0) 60%),
+  linear-gradient(115deg, #3B1406 0%, #8E2C08 35%, #D9530F 70%, #F28A22 100%);
+  color: #fff; padding: 88px 22px 0; overflow: hidden; }
+@media (max-width: 899px) { .split-frame { background: linear-gradient(180deg, #A9390B 0%, #D9530F 45%, #EE7F1E 100%); } .split-left { background: linear-gradient(115deg, #3B1406 0%, #8E2C08 45%, #C2470D 100%); padding-bottom: 8px; } .split-frame .sp-me { margin-top: 14px; } }
+@media (min-width: 900px) { .split-left { position: absolute; inset: 0; padding: 0; min-height: 0; } }
+.sp-glow { position: absolute; width: 70%; aspect-ratio: 1; left: 30%; top: 8%; border-radius: 50%; background: radial-gradient(circle, rgba(255,190,110,.45), transparent 65%); filter: blur(20px); pointer-events: none; }
+.sp-logo { display: none; position: absolute; left: 34px; top: 26px; z-index: 6; font-weight: 800; font-size: 20px; color: #fff; text-decoration: none; letter-spacing: -.02em; }
+.sp-logo span { color: #FFD7A8; }
+.sp-copy { position: relative; z-index: 3; }
+@media (min-width: 900px) { .sp-logo { display: block; } .sp-copy { position: absolute; left: 44px; top: 50%; transform: translateY(-46%); } }
+.sp-word { max-width: 100%; font-family: 'Anton', 'Bebas Neue', 'Oswald', 'Arial Narrow', 'DejaVu Sans Condensed', Impact, sans-serif; font-weight: 400; font-stretch: condensed; text-transform: uppercase; color: #fff; font-size: clamp(80px, 22vw, 210px); line-height: .82; letter-spacing: .005em; text-shadow: 0 10px 40px rgba(60,15,0,.35); }
+@media (min-width: 900px) { .sp-word { font-size: clamp(120px, 13vw, 190px); } }
+.sp-tag { font-size: clamp(16px, 1.6vw, 19px); font-weight: 500; line-height: 1.45; margin: 18px 0 22px; color: #FFF1E4; }
+.btn.pill-white { background: #fff; color: #2A0E04; border: 0; font-size: 14px; letter-spacing: .04em; text-transform: uppercase; box-shadow: 0 10px 28px rgba(60,15,0,.35); }
+.btn.pill-white:hover { box-shadow: 0 14px 34px rgba(60,15,0,.45); }
+.sp-prev { margin-top: 30px; }
+.sp-prev small { display: block; font-size: 12px; color: #FFD7A8; margin-bottom: 8px; }
+.sp-prev div { display: flex; gap: 6px; flex-wrap: wrap; }
+.sp-prev span { font-size: 12.5px; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.22); backdrop-filter: blur(6px); }
+
+.sp-me { position: relative; z-index: 4; display: block; width: 112%; max-width: none; margin: -40px 0 0 -6%; height: auto; filter: drop-shadow(0 20px 40px rgba(40,10,0,.35)); }
+@media (min-width: 900px) { .sp-me { position: absolute; margin: 0; width: auto; height: 82%; bottom: 0; left: 34%; } }
+
+.split-right { position: relative; background: #fff; color: var(--text); padding: 22px; display: grid; gap: 18px; }
+@media (min-width: 900px) { .split-right { position: absolute; top: 14px; right: 14px; bottom: 14px; width: 38%; border-radius: 18px; padding: 26px 28px; display: flex; flex-direction: column; justify-content: space-between; } }
+.sp-nav { display: none; }
+@media (min-width: 900px) { .sp-nav { display: flex; justify-content: flex-end; align-items: center; gap: 22px; font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; } }
+.sp-nav a { text-decoration: none; color: #3b3d42; }
+.sp-nav a:hover { color: var(--accent); }
+.sp-nav .sp-resume { padding: 8px 14px; border-radius: 999px; background: var(--soft); }
+.sp-nav, .sp-avail, .sp-card { position: relative; z-index: 6; }
+.sp-avail { padding-left: 0; }
+@media (min-width: 900px) { .sp-avail { padding-left: 34%; } }
+.sp-avail small { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.sp-avail small .dot { width: 7px; height: 7px; background: var(--accent); }
+.sp-avail small .dot::after { border-color: var(--accent); }
+.sp-avail b { display: block; font-size: clamp(22px, 2.2vw, 28px); line-height: 1.15; letter-spacing: -.02em; margin: 8px 0 8px; }
+.sp-avail > span { font-size: 13.5px; color: var(--muted); }
+.sp-card { background: var(--soft); border-radius: 16px; padding: 16px 18px; }
+@media (min-width: 900px) { .sp-card { margin-left: 30%; box-shadow: 0 10px 30px rgba(0,0,0,.08); } }
+.sp-card .q { font-size: 26px; line-height: 1; color: var(--accent); }
+.sp-card p { font-size: 14px; color: #3b3d42; margin: 6px 0 12px; }
+.sp-card p strong { color: var(--text); }
+.sp-card-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.sp-card-foot b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .04em; }
+.sp-card-foot small { font-size: 12px; color: var(--muted); }
+.sp-card-foot > span { flex: none; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 13px; color: #fff; background: linear-gradient(135deg, #D9530F, #F28A22); }
+
+.statrow { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+@media (min-width: 760px) { .statrow { grid-template-columns: repeat(4, 1fr); } }
+.statrow div { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; }
+.statrow b { display: block; font-size: clamp(24px, 3vw, 32px); font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
+.statrow span { font-size: 13.5px; color: var(--muted); }
+
+/* phones: warm header while on the hero */
+@media (max-width: 899px) {
+  body.on-stage header:not(.open) { background: rgba(42,14,4,.72); border-color: transparent; }
+  body.on-stage header:not(.open) .logo { color: #fff; }
+  body.on-stage header:not(.open) .logo span { color: #FFD7A8; }
+  body.on-stage header:not(.open) .menu-btn { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.25); }
+  body.on-stage header:not(.open) .menu-btn span, body.on-stage header:not(.open) .menu-btn span::before, body.on-stage header:not(.open) .menu-btn span::after { background: #fff; }
+}
+/* desktop: the hero frame has its own nav, so the sticky header waits until you scroll past */
+@media (min-width: 900px) {
+  header { transition: transform .35s var(--ease), border-color .3s, background .3s; }
+  body.on-stage header { transform: translateY(-100%); }
+}
+
+/* ================= HERO STAGE (dark, bold) — previous version, kept for reference ================= */
 .stage { position: relative; background: #0B0C10; color: #fff; overflow: hidden; padding: 28px 0 28px; margin-top: -66px; padding-top: 94px; }
 @media (min-width: 900px) { .stage { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-top: 110px; } }
 .stage::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 56px 56px; mask-image: radial-gradient(ellipse at 70% 40%, #000 10%, transparent 70%); pointer-events: none; }
@@ -299,17 +373,6 @@ footer a:hover { color: var(--text); }
 .prev2 .sep { width: 1px; height: 14px; background: #3a3d46; }
 @media (max-width: 759px) { .scrollcue { display: none; } }
 
-/* header sits on the dark stage until you scroll past it */
-body.on-stage header { background: rgba(11,12,16,.55); border-color: transparent; }
-body.on-stage .logo, body.on-stage .links a:hover, body.on-stage .links a.on { color: #fff; }
-body.on-stage .links a { color: #A9ADB8; }
-body.on-stage .nav .btn { background: transparent; color: #fff; border-color: rgba(255,255,255,.25); }
-body.on-stage .menu-btn { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.18); }
-body.on-stage .menu-btn span, body.on-stage .menu-btn span::before, body.on-stage .menu-btn span::after { background: #fff; }
-body.on-stage.menu-open-dark .mobile-menu { background: #0B0C10; }
-body.on-stage .mobile-menu a { color: #fff; border-color: rgba(255,255,255,.1); }
-body.on-stage header.open { background: rgba(11,12,16,.96); }
-
 /* ================= COLOUR RHYTHM ================= */
 /* 1. tinted opening: soft blue fading into warm, then into the page */
 header { background: rgba(250,250,247,.88); }
@@ -318,13 +381,13 @@ header.scrolled { background: rgba(250,250,247,.88); }
 /* 2. dark band for the AI section */
 #ai { background: #121317; color: #fff; padding-top: 72px; }
 @media (min-width: 860px) { #ai { padding-top: 104px; } }
-#ai .label { color: #9FB2FF; }
+#ai .label { color: #FDBA74; }
 #ai .head p, #ai .ai-card p { color: #A9ACB4; }
 #ai .ai-card { background: #1B1C21; border-color: #2A2B31; }
-#ai .ai-card:hover { border-color: #3d4b8a; }
+#ai .ai-card:hover { border-color: #7a3a14; }
 #ai .ai-card { transition: border-color .25s, transform .3s var(--ease); }
 #ai .ai-card:hover { transform: translateY(-3px); }
-#ai .ai-card .tool { background: rgba(58,89,209,.22); color: #B9C6FF; }
+#ai .ai-card .tool { background: rgba(234,88,12,.2); color: #FDBA74; }
 #ai .ai-flow span { background: #1B1C21; border-color: #2A2B31; }
 #ai .ai-flow span:last-child { background: var(--accent); border-color: var(--accent); }
 #ai .ai-flow i { color: #6B6E76; }
@@ -388,36 +451,42 @@ footer a:hover { color: #fff; }
 
 <main>
   <!-- ============ HERO ============ -->
-  <section class="stage" id="hero">
-    <div class="stage-glow" aria-hidden="true"></div>
-    <div class="wrap stage-grid">
-      <div class="stage-copy">
-        <div class="eyebrow fade"><span class="dot"></span>Senior UX Designer · Available now</div>
-        <h1 class="mega fade" style="--d:1"><em>Designing</em><em>AI products</em><span>people use.</span></h1>
-        <p class="stage-intro fade" style="--d:2">I'm Sadam. 9+ years across UX research, product design, design systems and front-end. I designed <strong>Open Weaver Studio</strong>, an AI website builder that 1,000+ clients have used to publish their websites.</p>
-        <div class="ctas fade" style="--d:3">
-          <a class="btn glow" href="#work">View my work <span class="arr">↗</span></a>
-          <a class="btn ghost" href="resume/Sadam_Hussain_Resume_UX_Designer.pdf" target="_blank" rel="noopener">Download resume <span class="arr">↓</span></a>
+  <section class="split" id="hero">
+    <div class="split-frame">
+      <div class="split-left">
+        <div class="sp-glow" aria-hidden="true"></div>
+        <a href="#" class="sp-logo">Sadam<span>.</span></a>
+        <div class="sp-copy">
+          <h1 class="sp-word fade">Design</h1>
+          <p class="sp-tag fade" style="--d:1">Research that listens.<br>Products that ship.</p>
+          <a class="btn pill-white fade" style="--d:2" href="#work">View work <span class="arr">↗</span></a>
+          <div class="sp-prev fade" style="--d:3"><small>Previously at</small><div><span>Open Weaver</span><span>CEM</span><span>Xerago</span></div></div>
         </div>
       </div>
-      <div class="stage-visual fade" style="--d:2">
-        <div class="ring" aria-hidden="true"></div>
-        <img class="me" src="assets/sadam-cutout.webp" alt="Sadam Hussain" width="598" height="1141">
-        <div class="float f1"><span class="fi">◎</span><div>UX<br>Research</div><i>↗</i></div>
-        <div class="float f2"><span class="fi">▦</span><div>Design<br>Systems</div><i>↗</i></div>
-        <div class="float f3"><span class="fi">✦</span><div>AI-native<br>Workflow</div><i>↗</i></div>
-      </div>
+      <img class="sp-me" src="assets/sadam-hero.webp" alt="Sadam Hussain" width="1100" height="955">
+      <aside class="split-right">
+        <nav class="sp-nav" aria-label="Hero">
+          <a href="#work">Work</a><a href="#ai">AI</a><a href="#about">About</a><a href="#contact">Contact</a>
+          <a class="sp-resume" href="resume/Sadam_Hussain_Resume_UX_Designer.pdf" target="_blank" rel="noopener">Resume</a>
+        </nav>
+        <div class="sp-avail fade" style="--d:2">
+          <small>Open to <i class="dot"></i></small>
+          <b>Full-time UX &amp;<br>Product Design roles</b>
+          <span>Senior UX Designer · Chennai · <span id="clock">--:--</span></span>
+        </div>
+        <div class="sp-card fade" style="--d:3">
+          <div class="q">❝</div>
+          <p>Designed <strong>Open Weaver Studio</strong>, an AI website builder where 1,000+ clients have published their websites.</p>
+          <div class="sp-card-foot"><div><b>Open Weaver Studio</b><small>Senior UX Specialist · 2023–26</small></div><span>1000+</span></div>
+        </div>
+      </aside>
     </div>
     <div class="wrap">
-      <div class="statbar fade" style="--d:4">
-        <div><span class="si">◷</span><p><b>9+</b>Years experience</p></div>
-        <div><span class="si">◉</span><p><b>1000+</b>Clients on Studio</p></div>
-        <div><span class="si">◐</span><p><b>57</b>Themes designed</p></div>
-        <div><span class="si">◍</span><p><b>28</b>Team members led</p></div>
-      </div>
-      <div class="stage-foot fade" style="--d:5">
-        <a href="#work" class="scrollcue"><span class="mouse"></span>Scroll to explore</a>
-        <div class="prev2"><span>Chennai · <b id="clock">--:--</b></span><span class="sep"></span><span>Previously at <b>Open Weaver</b> · <b>CEM</b> · <b>Xerago</b></span></div>
+      <div class="statrow fade" style="--d:4">
+        <div><b>9+</b><span>years in UX &amp; UI</span></div>
+        <div><b>1000+</b><span>clients on Studio</span></div>
+        <div><b>57</b><span>themes designed</span></div>
+        <div><b>28</b><span>team members led</span></div>
       </div>
     </div>
   </section>
@@ -582,7 +651,7 @@ document.getElementById('copyEmail').onclick = async () => {
 
 /* dark header while the hero stage is visible */
 const stage = document.getElementById('hero');
-new IntersectionObserver(([e]) => document.body.classList.toggle('on-stage', e.isIntersecting), { rootMargin: '-60px 0px 0px 0px' }).observe(stage);
+new IntersectionObserver(([e]) => document.body.classList.toggle('on-stage', e.isIntersecting), { threshold: .35 }).observe(stage);
 
 /* header border once scrolled */
 const header = document.querySelector('header');
