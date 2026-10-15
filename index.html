@@ -248,7 +248,65 @@ footer a:hover { color: var(--text); }
 .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); background: var(--text); color: #fff; padding: 11px 18px; border-radius: 999px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s var(--ease); z-index: 50; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-/* ================= HERO: SPLIT (warm orange + white panel) ================= */
+/* ================= HERO (orange stage + white panel, soft type) ================= */
+.hx { padding: 12px 12px 8px; margin-top: -66px; }
+@media (min-width: 900px) { .hx { padding: 16px 16px 8px; } }
+.hx-frame { position: relative; border-radius: 28px; overflow: hidden; color: #fff;
+  background: radial-gradient(60% 70% at 45% 55%, #F9A23C 0%, rgba(249,162,60,0) 70%), linear-gradient(120deg, #8A2A06 0%, #D5520E 40%, #EE7A1A 75%, #F59A35 100%); }
+@media (min-width: 900px) { .hx-frame { height: min(calc(100svh - 110px), 760px); min-height: 620px; } }
+.hx-art { position: absolute; inset: 0; pointer-events: none; }
+.hx-art i { position: absolute; border-radius: 50%; }
+.hx-art .a1 { width: 520px; height: 520px; left: -220px; top: -260px; background: rgba(120,35,5,.45); }
+.hx-art .a2 { width: 640px; height: 640px; left: 22%; top: -380px; border: 70px solid rgba(255,170,90,.12); }
+.hx-art .a3 { width: 460px; height: 460px; left: -160px; bottom: -300px; background: rgba(255,190,120,.18); }
+.hx-logo { display: none; position: absolute; left: 28px; top: 24px; z-index: 6; width: 40px; height: 40px; border-radius: 12px; background: #fff; color: #C2410C; text-decoration: none; font-weight: 800; place-items: center; font-size: 20px; }
+.hx-left { position: relative; z-index: 5; padding: 88px 22px 0; }
+@media (min-width: 900px) { .hx-logo { display: grid; } .hx-left { position: absolute; left: 44px; top: 50%; transform: translateY(-58%); padding: 0; } }
+.hx-pill { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.55); font-size: 13px; font-weight: 500; background: rgba(255,255,255,.08); backdrop-filter: blur(6px); }
+.hx-pill i { width: 4px; height: 4px; border-radius: 50%; background: #fff; }
+.hx-h1 { font-family: var(--font); font-weight: 500; font-size: clamp(46px, 12vw, 84px); line-height: 1.02; letter-spacing: -.045em; margin: 18px 0 28px; text-shadow: 0 8px 30px rgba(80,20,0,.25); }
+@media (min-width: 900px) { .hx-h1 { font-size: clamp(56px, 5.6vw, 86px); } }
+.hx-cta { display: inline-flex; align-items: center; justify-content: center; padding: 18px 34px; border-radius: 999px; background: #fff; color: #1d1d1f; font-weight: 600; font-size: 16px; text-decoration: none; box-shadow: 0 14px 34px rgba(90,25,0,.35); transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+.hx-cta:hover { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(90,25,0,.45); }
+
+.hx-me { position: relative; z-index: 3; display: block; width: 118%; max-width: none; margin: 18px 0 0 -9%; height: auto; }
+@media (min-width: 900px) { .hx-me { position: absolute; margin: 0; width: auto; height: 90%; bottom: 0; left: 27%; } }
+
+.hx-stats { position: relative; z-index: 5; display: flex; gap: 10px; padding: 0 22px; margin-top: -120px; }
+@media (min-width: 900px) { .hx-stats { position: absolute; left: 44px; bottom: 28px; padding: 0; margin: 0; } }
+.hx-stats div { position: relative; width: 132px; background: #fff; color: #1d1d1f; border-radius: 16px; padding: 12px 14px 14px; box-shadow: 0 10px 28px rgba(80,20,0,.25); }
+.hx-stats small { display: block; font-size: 12px; font-weight: 600; color: #3b3d42; }
+.hx-stats i { position: absolute; right: 12px; top: 11px; width: 18px; height: 18px; border-radius: 6px; background: #F59A35; color: #fff; font-style: normal; font-size: 11px; display: grid; place-items: center; }
+.hx-stats b { display: block; font-size: 32px; font-weight: 600; letter-spacing: -.03em; margin-top: 22px; line-height: 1; }
+
+.hx-social { position: relative; z-index: 5; display: flex; gap: 10px; justify-content: center; padding: 18px 0 22px; }
+@media (min-width: 900px) { .hx-social { position: absolute; left: 47%; bottom: 26px; transform: translateX(-50%); padding: 0; } }
+.hx-social a { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid rgba(255,255,255,.75); color: #fff; background: rgba(0,0,0,.18); backdrop-filter: blur(6px); transition: background .2s, transform .2s; }
+.hx-social a:hover { background: rgba(255,255,255,.2); transform: translateY(-2px); }
+.hx-social svg { width: 17px; height: 17px; fill: currentColor; }
+
+.hx-panel { position: relative; background: #fff; color: var(--text); padding: 24px 22px; display: grid; gap: 22px; }
+@media (min-width: 900px) { .hx-panel { position: absolute; top: 14px; right: 14px; bottom: 14px; width: 37%; border-radius: 20px; padding: 26px 30px 28px; display: flex; flex-direction: column; justify-content: space-between; } }
+.hx-nav, .hx-intro, .hx-card { position: relative; z-index: 6; }
+.hx-nav { display: none; }
+@media (min-width: 900px) { .hx-nav { display: flex; justify-content: flex-end; gap: 30px; font-size: 15px; font-weight: 500; } }
+.hx-nav a { text-decoration: none; color: #1d1d1f; }
+.hx-nav a:hover { color: var(--accent); }
+@media (min-width: 900px) { .hx-intro { padding-left: 16%; } }
+.hx-avail { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; padding: 4px 11px; border-radius: 999px; border: 1px solid #d9d9d4; }
+.hx-avail .dot { width: 7px; height: 7px; }
+.hx-hi { font-size: clamp(22px, 2.1vw, 28px); font-weight: 500; line-height: 1.32; letter-spacing: -.025em; margin: 14px 0 16px; color: #1d1d1f; }
+.hx-hi em { font-style: normal; color: #E8711C; }
+.hx-sub { font-size: 13.5px; line-height: 1.45; color: #3b3d42; }
+.hx-card { background: #fff; border-radius: 18px; padding: 16px 18px 18px; box-shadow: 0 2px 6px rgba(0,0,0,.05), 0 16px 40px rgba(0,0,0,.10); border: 1px solid #efefea; }
+@media (min-width: 900px) { .hx-card { width: 74%; margin-left: 4%; } }
+.hx-who { display: flex; align-items: center; gap: 12px; }
+.hx-who img { width: 52px; height: 52px; border-radius: 12px; object-fit: cover; }
+.hx-who b { display: block; font-size: 15px; }
+.hx-who small { font-size: 13px; color: var(--muted); }
+.hx-card p { font-size: clamp(18px, 1.6vw, 22px); font-weight: 600; line-height: 1.3; letter-spacing: -.02em; margin-top: 14px; color: #1d1d1f; }
+
+/* ================= HERO: SPLIT (warm orange + white panel) — previous version ================= */
 .split { padding: 12px 12px 8px; margin-top: -66px; }
 @media (min-width: 900px) { .split { padding: 16px 16px 8px; } }
 .split-frame { position: relative; border-radius: 26px; overflow: hidden; background: #2A0E04; display: grid; }
@@ -451,43 +509,37 @@ footer a:hover { color: #fff; }
 
 <main>
   <!-- ============ HERO ============ -->
-  <section class="split" id="hero">
-    <div class="split-frame">
-      <div class="split-left">
-        <div class="sp-glow" aria-hidden="true"></div>
-        <a href="#" class="sp-logo">Sadam<span>.</span></a>
-        <div class="sp-copy">
-          <h1 class="sp-word fade">Design</h1>
-          <p class="sp-tag fade" style="--d:1">Research that listens.<br>Products that ship.</p>
-          <a class="btn pill-white fade" style="--d:2" href="#work">View work <span class="arr">↗</span></a>
-          <div class="sp-prev fade" style="--d:3"><small>Previously at</small><div><span>Open Weaver</span><span>CEM</span><span>Xerago</span></div></div>
-        </div>
+  <section class="hx" id="hero">
+    <div class="hx-frame">
+      <div class="hx-art" aria-hidden="true"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
+      <a href="#" class="hx-logo" aria-label="Sadam Hussain, home"><span>S</span></a>
+      <div class="hx-left">
+        <span class="hx-pill fade">Sadam Hussain <i></i> Senior UX Designer</span>
+        <h1 class="hx-h1 fade" style="--d:1">Design<br>AI Products<br>People Use</h1>
+        <a class="hx-cta fade" style="--d:2" href="#work">View My Work</a>
       </div>
-      <img class="sp-me" src="assets/sadam-hero.webp" alt="Sadam Hussain" width="1100" height="955">
-      <aside class="split-right">
-        <nav class="sp-nav" aria-label="Hero">
-          <a href="#work">Work</a><a href="#ai">AI</a><a href="#about">About</a><a href="#contact">Contact</a>
-          <a class="sp-resume" href="resume/Sadam_Hussain_Resume_UX_Designer.pdf" target="_blank" rel="noopener">Resume</a>
-        </nav>
-        <div class="sp-avail fade" style="--d:2">
-          <small>Open to <i class="dot"></i></small>
-          <b>Full-time UX &amp;<br>Product Design roles</b>
-          <span>Senior UX Designer · Chennai · <span id="clock">--:--</span></span>
+      <img class="hx-me" src="assets/sadam-hero.webp" alt="Sadam Hussain" width="1100" height="955">
+      <div class="hx-stats fade" style="--d:3">
+        <div><small>Years in UX</small><i>↗</i><b>9+</b></div>
+        <div><small>Studio clients</small><i>↗</i><b>1000+</b></div>
+      </div>
+      <div class="hx-social fade" style="--d:4">
+        <a href="https://www.linkedin.com/in/sadam-hussain-3a6233a7/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 2a2 2 0 110 4 2 2 0 010-4z"/></svg></a>
+        <a href="mailto:aaqilsadam@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M3 6h18v12H3z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 7l9 6 9-6" fill="none" stroke="currentColor" stroke-width="2"/></svg></a>
+        <a href="resume/Sadam_Hussain_Resume_UX_Designer.pdf" target="_blank" rel="noopener" aria-label="Resume"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z M14 2v6h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></a>
+      </div>
+      <aside class="hx-panel">
+        <nav class="hx-nav" aria-label="Hero"><a href="#about">About</a><a href="#work">Work</a><a href="#ai">AI</a><a href="#contact">Contact</a></nav>
+        <div class="hx-intro fade" style="--d:2">
+          <span class="hx-avail"><i class="dot"></i>Available</span>
+          <p class="hx-hi">Hi, I'm <em>Sadam</em>.<br>I design <em>AI products</em> and <em>design systems</em> that people actually use. Looking for my next role.</p>
+          <p class="hx-sub">UX research.<br>Product design.<br>Design to code.</p>
         </div>
-        <div class="sp-card fade" style="--d:3">
-          <div class="q">❝</div>
-          <p>Designed <strong>Open Weaver Studio</strong>, an AI website builder where 1,000+ clients have published their websites.</p>
-          <div class="sp-card-foot"><div><b>Open Weaver Studio</b><small>Senior UX Specialist · 2023–26</small></div><span>1000+</span></div>
+        <div class="hx-card fade" style="--d:3">
+          <div class="hx-who"><img src="assets/sadam-avatar.jpg" alt="" width="52" height="52"><div><b>Sadam Hussain</b><small>Senior UX Designer · <span id="clock">--:--</span></small></div></div>
+          <p>“I design products that are simple to use and ready to build.”</p>
         </div>
       </aside>
-    </div>
-    <div class="wrap">
-      <div class="statrow fade" style="--d:4">
-        <div><b>9+</b><span>years in UX &amp; UI</span></div>
-        <div><b>1000+</b><span>clients on Studio</span></div>
-        <div><b>57</b><span>themes designed</span></div>
-        <div><b>28</b><span>team members led</span></div>
-      </div>
     </div>
   </section>
 
